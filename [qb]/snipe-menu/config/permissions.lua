@@ -28,15 +28,11 @@ Config.GodRoles = {
 -- Original Permissions table for information on all possible available options
 Config.Permissions = {
     ["discord:811436286006657025"] = "god", -- dx
-    ["discord:770558357014183976"] = "god",   -- Muradhasan
-    ["discord:777552373560115211"] = "god",   -- habib
-  --  ["discord:1268965871775383702"] = "god",   -- SyroX
-    ["discord:914556948442128504"] = "god",   -- : bishalroy#0
-    ["discord:849340844178669628"] = "god",   --  lord8byte#0
+  
 
-    ["discord:839029240028201020"] = "god",   --  Bug x
+    ["discord:1036247521074360331"] = "god",   -- : klutch
+    ["discord:315117946181779456"] = "god",   --  emissa
 
-     ["discord:731739994091159572"] = "god",   --  Bug x
   
   
   --  ["YJR13040"] = "admin",   --- tutulahmed  --- discord:721696179754238004
