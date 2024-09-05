@@ -1,0 +1,11 @@
+CREATE TABLE `brutal_pets` (
+  `identifier` varchar(128) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `model` varchar(128) NOT NULL,
+  `type` varchar(128) NOT NULL,
+  `dead` varchar(128) NOT NULL,
+  `skin` int(128) NOT NULL,
+  `collar` int(128) NOT NULL,
+  `thirst` int(128) NOT NULL,
+  `hunger` int(128) NOT NULL,
+  `hp` int(128) NOT NULL);

@@ -1,0 +1,165 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.qb-BodyMain{
+    display: none;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 40%;
+    padding: 1%;
+    background: #202731;
+    border-radius: 10px;
+    box-shadow: 1px 1px 6px rgb(5, 5, 5);
+}
+
+.qb-btn-close-right{
+    position: relative;
+    padding-right: 1%;
+    font-size: 1.9vh;
+}
+
+.qb-GPS-List{
+    position: relative;
+    width: 100%;
+    height: 92%;
+    margin-top: 3%;
+    overflow-y: auto;
+    display: inline-block;
+    padding: 1%;
+    color: whitesmoke;
+    font-family: sans-serif;
+    font-size: 1.7vh;
+}
+
+.GPS-Class{
+    position: relative;
+    width: 95%;
+    margin: 1% 0;
+    border-radius: 10px;
+    padding: 1% 1%;
+    font-size: 1.7vh;
+    background: #2c465f;
+    box-shadow: 1px 1px 6px rgb(5, 5, 5);
+}
+
+.qb-GPS-List::-webkit-scrollbar {
+    width: .5vh;
+}
+
+.qb-GPS-List::-webkit-scrollbar-thumb {
+    background-color: #4b526c;
+}
+
+#CloseGpsMenu{
+    color: #f5a15b;
+    transition: 0.25s;
+    float: right;
+}
+
+#CloseGpsMenu:hover{
+    color: #c27e47;
+}
+
+#InsertTableGPS{
+    color: #8ee074;
+    transition: 0.25s;
+    float: left;
+}
+
+#InsertTableGPS:hover{
+    color: #6cac59;
+}
+
+.AddIPMenu{
+    display: none;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 40%;
+    background: #0d1218c0;
+    box-shadow: 1px 1px 6px rgb(5, 5, 5);
+    font-family: sans-serif;
+
+}
+
+.qb-input-style{
+    width: 60%;
+    margin: 4% 19%;
+    border: none;
+    background: none;
+    outline: none;
+    border-bottom: .1vh solid #f5f5f5ad;
+    line-height: 3vh;
+    color: whitesmoke;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 1.7vh;
+}
+
+.qb-input-style::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.qb-input-style:focus {
+    border-bottom: .1vh solid #8ee074;
+}
+
+.AddIPMenuVTNS{
+    display: inline-flex;
+    margin: 1% 21.5%;
+}
+
+.AddIPBTN-Main{
+    display: inline-table;
+    padding: 6% 10%;
+    margin: 2%;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 1.7vh;
+}
+
+.GreenBTN{
+    background: #8ee074;
+    transition: 0.25s;
+}
+.GreenBTN:hover{
+    background: #6cac59;
+}
+
+.RedBTN{
+    background: #f5a15b;
+    transition: 0.25s;
+}
+.RedBTN:hover{
+    background: #c27e47;
+}
+
+.GPS-Close-Class{
+    display: block;
+    float: right;
+    background: #f5a15b;
+    padding: 0 1%;
+    border-radius: 7px;
+    color: black;
+    transition: 0.25s;
+    font-size: 1.7vh;
+}
+
+.GPS-Close-Class:hover{
+    background: #c27e47;
+}

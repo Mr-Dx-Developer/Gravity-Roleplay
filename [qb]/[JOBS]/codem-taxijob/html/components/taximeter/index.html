@@ -1,0 +1,50 @@
+<div class="taximeter">
+    <div class="taximeter-wrapper">
+        <img src="./assets/images/taximeter-logo.png" class="taximeter-logo">
+        <div v-if="!taximeter.billPlayer" class="taximeter-header">
+            <p>{{taximeter.header}}</p>
+            <h1>{{taximeter.customerInVeh ? locales.carrying_npc : taximeter.enabled ? locales.taximeter_on : locales.active_for_work}}</h1>
+        </div>
+       
+     
+        <div class="flex relative mt-6 items-center justify-between">
+            <div v-if="taximeter.npcDriveChoice == 'fast' && !taximeter.billPlayer" class="flex gap-x-2 items-center">
+                <p class="vehicle-health-text">{{timer}}</p>
+            </div>
+            <div v-if="taximeter.npcDriveChoice == 'careful' && !taximeter.billPlayer" class="flex gap-x-2 items-center">
+                <p class="vehicle-health-text" v-html="locales.vehicle_health"></p>
+                <p class="vehicle-health-value">%{{taximeter.vehicleHealth}}</p>
+            </div>
+            <div class="taximeter-fare">
+                {{taximeter.fare}}<span>$</span>
+            </div>
+            <img src="./assets/images/line.png" v-if="(taximeter.npcDriveChoice == 'careful' ||  taximeter.npcDriveChoice == 'fast') && !taximeter.billPlayer" class="right-5 -top-8 transform absolute">
+            <p class="taximeter-npc-request-text" v-if="taximeter.npcDriveChoice == 'careful' && !taximeter.billPlayer">{{locales.careful}}</p>
+            <p class="taximeter-npc-request-text" v-if="taximeter.npcDriveChoice == 'fast' && !taximeter.billPlayer">{{locales.fast}}</p>
+        </div>
+        <div v-if="taximeter.billPlayer" class="taximeter-header">
+            <p>{{locales.nearby_players}}</p>
+        </div>
+        <div class="taximeter-bill-players mt-2" v-if="taximeter.billPlayer">
+            <div v-for="(i, index) in taximeter.billPlayers" class="taximeter-bill-player">
+                <p>{{i.name}} - {{i.id}}</p>
+                <div>{{index+1}}</div>
+            </div>   
+        </div>
+        <div class="taximeter-keys" v-if="!taximeter.billPlayer">
+            <div class="taximeter-key">
+                <div>G</div>
+                <p>{{taximeter.playerMode ? locales.activate_npc_cabbing : locales.disable_npc_cabbing}}</p>
+            </div>
+            <div v-if="taximeter.playerMode" class="taximeter-key">
+                <div>E</div>
+                <p>{{taximeter.enabled ? locales.turn_off_taximeter : locales.open_taximeter}}</p>
+            </div>
+            <div class="taximeter-key">
+                <div>N</div>
+                <p>{{taximeter.playerMode ? locales.bill_player : locales.change_area}}</p>
+            </div>
+        
+        </div>
+    </div>
+</div>

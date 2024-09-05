@@ -1,0 +1,164 @@
+<div class="w-full h-full flex flex-wrap content-start" style="overflow: hidden">
+    <div class="w-full h-[8%] flex items-center justify-center">
+        <div class="w-[91.5%] h-[80%] flex items-center">
+            <h2 style="font-family: gilroymedium; color: white; font-size: 0.9vw">
+                {{this.$store.state.dashboardpage.locales['FLEECA_BANK_CRYPTO']}}
+            </h2>
+        </div>
+    </div>
+    <div class="w-full h-[92%] flex items-start justify-center">
+        <div class="w-[95%] h-full flex flex-wrap content-start relative no-scrollbar" style="overflow: auto">
+            <div
+                v-if="this.$store.state.cryptopage.cryptodata"
+                v-for="(data,index) in this.$store.state.cryptopage.cryptodata"
+                class="w-[30%] h-[25%] ml-[1vw] mt-[1vh] cursor-pointer"
+                style="background-size: 100% 100%; opacity: 0.3"
+                @mouseover="mouseOver(index)"
+                @mouseleave="mouseLeave"
+                @click="openLoanModal(data,index)"
+                :style="hoveredIndex == index ?  {'background-image' : 'url(./images/'+data.backgroundImage+')', 'opacity' : '1'} : {'background-image' : 'url(./images/'+data.backgroundImage+')', 'opacity' : '0.3'}"
+            >
+                <div class="w-full h-[25%] flex items-center">
+                    <h2 class="ml-[2vw] mt-[1vh]" style="font-family: gilroyheavy; color: white; font-size: 0.7vw">{{data.label}}</h2>
+                </div>
+                <div class="w-full h-[75%] flex items-end justify-center">
+                    <div class="w-full h-[50%] flex">
+                        <div class="w-[50%] h-full flex items-center justify-start">
+                            <h2 class="ml-[1vw] absolute" style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw">
+                                {{data.label2}}
+                            </h2>
+                            <h2 class="ml-[1vw] absolute" style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw">
+                                {{data.label2}}
+                            </h2>
+                        </div>
+                        <div class="w-[50%] h-full flex items-center justify-center relative">
+                            <h2 class="ml-[1vw] absolute" style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw">
+                                {{$store.state.dashboardpage.currencyUnit}} {{data.value.toLocaleString()}}
+                            </h2>
+                            <h2 class="ml-[1vw] absolute" style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw">
+                                {{$store.state.dashboardpage.currencyUnit}} {{data.value.toLocaleString()}}
+                            </h2>
+                            <h2 class="ml-[1vw] absolute" style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw">
+                                {{$store.state.dashboardpage.currencyUnit}} {{data.value.toLocaleString()}}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                v-if="wantLoanModal"
+                class="w-full h-full absolute flex items-center justify-center"
+                style="background-image: url(./images/loanrec.png); background-size: 100% 100%"
+            >
+                <div class="w-[50%] h-[75%]">
+                    <div class="w-full h-[12%] flex items-center justify-center">
+                        <h2 class="ml-[1vw]" style="font-family: gilroyheavy; color: white; font-size: 0.7vw">{{this.$store.state.dashboardpage.locales['AREUSUREGETTHISCOIN']}}</h2>
+                    </div>
+                    <div class="w-full h-[40%] flex items-center justify-center">
+                        <div
+                            class="w-[70%] h-[80%] cursor-pointer"
+                            style="background-size: 100% 100%"
+                            :style="{'background-image' : 'url(./images/'+fakeData.backgroundImage+')'}"
+                        >
+                            <div class="w-full h-[25%] flex items-center">
+                                <h2 class="ml-[2.5vw] mt-[0.9vh]" style="font-family: gilroyheavy; color: white; font-size: 0.9vw">
+                                    {{fakeData.label}}
+                                </h2>
+                            </div>
+                            <div class="w-full h-[75%] flex items-end justify-center">
+                                <div class="w-full h-[50%] flex">
+                                    <div class="w-[50%] h-full flex items-center justify-start relative">
+                                        <h2
+                                            class="ml-[1vw] absolute"
+                                            style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw"
+                                        >
+                                            {{fakeData.label2}}
+                                        </h2>
+                                        <h2
+                                            class="ml-[1vw] absolute"
+                                            style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw"
+                                        >
+                                            {{fakeData.label2}}
+                                        </h2>
+                                    </div>
+                                    <div class="w-[50%] h-full flex items-center justify-center relative">
+                                        <h2
+                                            class="ml-[1vw] absolute"
+                                            style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw"
+                                        >
+                                            {{$store.state.dashboardpage.currencyUnit}} {{fakeData.value.toLocaleString()}}
+                                        </h2>
+                                        <h2
+                                            class="ml-[1vw] absolute"
+                                            style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw"
+                                        >
+                                            {{$store.state.dashboardpage.currencyUnit}} {{fakeData.value.toLocaleString()}}
+                                        </h2>
+                                        <h2
+                                            class="ml-[1vw] absolute"
+                                            style="font-family: gilroyheavy; mix-blend-mode: overlay; color: white; font-size: 1vw"
+                                        >
+                                            {{$store.state.dashboardpage.currencyUnit}} {{fakeData.value.toLocaleString()}}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full h-[12%] flex items-start justify-center">
+                        <div class="w-[70%] h-[70%] flex justify-between">
+                            <div class="w-[30%] h-full flex rounded-[0.5vw]" style="background-color: #21405e">
+                                <div class="w-[65%] h-full">
+                                    <input
+                                        type="text"
+                                        v-model="this.bitcoinValue"
+                                        @input="checkInput"
+                                        class="w-full h-full text-center text-white"
+                                        style="background-color: transparent; font-family: gilroybold; outline: none; border: none"
+                                    />
+                                </div>
+                                <div class="w-[35%] h-full" style="border-left: 1px solid black">
+                                    <div class="w-full h-[50%] flex items-center justify-center">
+                                        <img class="h-[50%] object-contain" @click="bitcoinValueFunc('+')" src="./images/upbutton.png" alt="" />
+                                    </div>
+                                    <div class="w-full h-[50%] flex items-center justify-center">
+                                        <img
+                                            class="h-[50%] object-contain"
+                                            @click="bitcoinValueFunc('-')"
+                                            style="transform: rotate(180deg)"
+                                            src="./images/upbutton.png"
+                                            alt=""
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-[65%] h-full flex items-center justify-end rounded-[0.5vw]" style="background-color: #21405e">
+                                <h2 class="mr-[1vw] absolute" style="font-family: gilroybold; color: #7ec1ff; font-size: 1vw">
+                                    {{$store.state.dashboardpage.currencyUnit}} {{(this.bitcoinValue * fakeData.value).toLocaleString()}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full h-[12%] flex items-start justify-center">
+                        <div class="w-[70%] h-[70%] flex justify-between">
+                            <div
+                                class="w-[80%] h-full rounded-[0.5vw] flex items-center justify-center cursor-pointer"
+                                @click="buyBitcoin"
+                                style="background-color: #7ec1ff"
+                            >
+                                <h2 style="font-family: gilroymedium; font-size: 0.9vw">{{this.$store.state.dashboardpage.locales['GETCOIN']}}</h2>
+                            </div>
+                            <div
+                                class="w-[15%] h-full rounded-[0.5vw] flex items-center justify-center cursor-pointer"
+                                @click="closeLoanModal"
+                                style="background-color: #21405e"
+                            >
+                                <h2 style="font-family: gilroybold; font-size: 0.9vw; color: white">X</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

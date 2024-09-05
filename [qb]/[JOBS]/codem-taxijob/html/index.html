@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue/vue.global.js"></script>
+    <script src="./vue/vuex.global.js"></script>
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./responsive.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="notifications" :style="notificationPosition">
+            <div class="notification" v-for="notification in notifications">
+                <img src="./assets/images/notification-icon.png">
+                <div class="ml-4 flex flex-col gap-y-1">
+                    <h1>Success!</h1>
+                    <p>{{notification}}</p>
+                </div>
+                <img class="notification-icon" src="./assets/images/notification-icon-2.png">s
+            </div>
+        </div>
+        <bill></bill>
+        <taximeter v-if="taxiMeterOpen"></taximeter>
+        <!-- <img class="temp-bg" src="./assets/images/BG_2.png" /> -->
+        <img v-if="menuOpen" src="./assets/images/logo.png" class="logo">
+        <div class="main-container" v-if="menuOpen">
+            <div class="main-wrapper">
+                <topheader></topheader>
+                <mainpage v-if="activePage == 'mainpage'"></mainpage>
+                <vip v-if="activePage == 'vip'"></vip>
+                <leaderboard v-if="activePage == 'leaderboard'"></leaderboard>
+                <profile v-if="activePage == 'profile'"></profile>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="module" src="./index.js"></script>
+<script src="./utils/postNui.js"></script>
+
+</html>

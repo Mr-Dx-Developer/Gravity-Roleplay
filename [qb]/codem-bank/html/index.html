@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="./js/vue.global.js"></script>
+        <script src="./js/vuex.global.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/responsive.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+        <title>Codem Banking</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <div
+                v-show="atmPage"
+                class="w-full h-[100vh] relative flex items-center justify-end"
+                style="background-image: url(./images/atmbg.png); background-size: 100% 100%; display: none"
+            >
+                <div v-if="curentAtmPage == 'main'" class="w-[43.3%] h-full flex items-center justify-start">
+                    <div
+                        class="w-[66.2%] h-[81.5%] rounded-[0.5vw]"
+                        style="background-image: url(./images/atmbackground.png); background-size: 100% 100%"
+                    >
+                        <div class="w-full h-[22%] flex items-center justify-center">
+                            <img class="h-[25%] object-contain" src="./images/fleecalogo.png" alt="" />
+                        </div>
+                        <div class="w-full h-[3.5%] flex items-center justify-center">
+                            <h2 style="font-family: gilroysemibold; color: white; font-size: 1.25vw">
+                                {{this.$store.state.dashboardpage.locales['WELCOMEATM']}}
+                            </h2>
+                        </div>
+                        <div class="w-full h-[26%] flex items-end justify-center">
+                            <div
+                                class="w-[30%] h-[75%] rounded-full flex items-center justify-center"
+                                style="background-image: url(./images/roundedprofile2.png); background-size: 100% 100%"
+                            >
+                                <img class="h-[90%] rounded-full" :src="atmAccount.avatar" alt="" />
+                            </div>
+                        </div>
+                        <div class="w-full h-[10%] flex items-center justify-center">
+                            <h2 style="font-family: gilroysemibold; color: white; font-size: 1.25vw">{{atmAccount.name}}</h2>
+                        </div>
+                        <div class="w-full h-[7%] flex items-center justify-center">
+                            <div
+                                class="w-[48%] h-[90%] rounded-[0.5vw] flex items-center justify-center cursor-pointer"
+                                style="background-color: #7ec1ff"
+                                @click="joinAtmSelf"
+                            >
+                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1.25vw">
+                                    {{this.$store.state.dashboardpage.locales['LOGIN']}}
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="w-full h-[7%] flex items-center justify-center">
+                            <h2 style="font-family: gilroysemibold; color: white; font-size: 0.5vw">
+                                {{this.$store.state.dashboardpage.locales['FACEDETECTIONCOMPLETED']}}
+                            </h2>
+                        </div>
+                        <div class="w-full h-[16%] flex items-center justify-center">
+                            <div class="w-[64%] h-full" style="border-bottom: 1px solid rgba(255, 255, 255, 0.12)"></div>
+                        </div>
+                        <div class="w-full h-[8.5%] flex items-center justify-center">
+                            <h2
+                                @click="changeAtmPage('login')"
+                                style="font-family: gilroysemibold; color: #7ec1ff; font-size: 0.8vw; cursor: pointer"
+                            >
+                                {{this.$store.state.dashboardpage.locales['LOGINTOANOTHERBANKACCOUNT']}}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="curentAtmPage == 'login'" class="w-[43.3%] h-full flex items-center justify-start">
+                    <div
+                        class="w-[66.2%] h-[81.5%] rounded-[0.5vw]"
+                        style="background-image: url(./images/atmbackground.png); background-size: 100% 100%"
+                    >
+                        <div class="w-full h-[15%] flex items-center justify-center">
+                            <img class="h-[35%] object-contain" src="./images/fleecalogo.png" alt="" />
+                        </div>
+                        <div class="w-full h-[8%] flex items-center justify-center">
+                            <h2 style="font-family: gilroysemibold; color: rgba(255, 255, 255, 1); font-size: 1.25vw">Welcome to Flecca Bank ATM</h2>
+                        </div>
+                        <div class="w-full h-[11%] flex items-center justify-center">
+                            <div class="w-[66%] h-[50%] rounded-[0.4vw]" style="background: rgba(0, 0, 0, 0.28)">
+                                <input
+                                    type="text"
+                                    class="h-full w-full text-center"
+                                    placeholder="IBAN"
+                                    @input="checkInput"
+                                    v-model="ibanText"
+                                    style="
+                                        border: none;
+                                        outline: none;
+                                        background-color: transparent;
+                                        font-family: gilroybold;
+                                        font-size: 0.9vw;
+                                        color: rgba(255, 255, 255, 0.16);
+                                    "
+                                />
+                            </div>
+                        </div>
+                        <div class="w-full h-[7%] flex items-center justify-center">
+                            <div class="w-[40%] h-[60%] rounded-[0.4vw] justify-between flex items-center">
+                                <div
+                                    v-for="(data,index) in 4"
+                                    :style="{'background-color' : isEntered(index + 1) ? 'black' : ''}"
+                                    class="w-[13%] h-[80%] rounded-full"
+                                    style="border: 1px solid rgba(0, 0, 0, 0.36)"
+                                ></div>
+                            </div>
+                        </div>
+                        <div class="w-full h-[37%] flex items-end justify-center">
+                            <div class="w-[51%] h-[94%] mr-[1.5vw] rounded-[0.4vw] justify-center flex flex-wrap items-start">
+                                <div
+                                    v-for="(data,index) in 12"
+                                    :style="index + 1  == 10 || index +1 == 12 ? 'visibility : hidden' : 'visibility : visible'"
+                                    class="w-[22.5%] h-[20%] ml-[1.5vw] rounded-full flex items-center justify-center cursor-pointer"
+                                    style="background-color: rgba(0, 0, 0, 0.19)"
+                                    @click="enterpasscode(index)"
+                                >
+                                    <h2 style="font-family: gilroybold; color: white; font-size: 0.9vw">{{index + 1 == 11 ? 0 : index +1}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full h-[11.5%] flex items-center justify-center">
+                            <div
+                                class="w-[48%] h-[50%] rounded-[0.5vw] flex items-center justify-center"
+                                @click="loginATMAccount"
+                                style="background-color: rgba(126, 193, 255, 0.57)"
+                            >
+                                <h2 class="cursor-pointer" style="font-family: gilroysemibold; color: white; font-size: 0.8vw">Login</h2>
+                            </div>
+                        </div>
+                        <div class="w-full h-[2%] flex items-center justify-center">
+                            <div class="w-[65%] h-full" style="border-bottom: 1px solid rgba(255, 255, 255, 0.12)"></div>
+                        </div>
+                        <div class="w-full h-[8.5%] flex items-center justify-center">
+                            <h2
+                                class="cursor-pointer"
+                                @click="changeAtmPage('main')"
+                                style="font-family: gilroysemibold; color: #ff7e7e; font-size: 0.8vw"
+                            >
+                                Cancel
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <transition-group name="opacityanim">
+                <div v-if="!atmPage && show" class="w-full h-[100vh] relative flex items-center justify-center" style="background-size: 100% 100%">
+                    <div v-show="show"
+                        class="w-[77.5%] relative h-[81%] rounded-[1.5vw] flex flex-wrap content-start"
+                        style="background-image: url(./images/bg.png); background-size: 100% 100%; display: none;"
+                    >
+                        <div class="w-[0.1%] h-full ml-[4.8vw] flex items-center justify-center absolute">
+                            <div class="w-full h-[96.5%] gradient-border"></div>
+                        </div>
+                        <div class="w-[71%] h-[10%] flex items-center justify-end absolute">
+                            <div class="w-[98.5%] h-full gradient-border2"></div>
+                        </div>
+                        <div class="w-[6.4%] h-full flex items-center justify-end">
+                            <div class="w-[87%] h-full">
+                                <div class="w-full h-[10%] flex items-end justify-end" style="">
+                                    <div class="w-full h-[80%] flex items-center justify-center">
+                                        <img class="h-[40%]" src="./images/logo.png" alt="" />
+                                    </div>
+                                </div>
+                                <div class="w-full h-[88%]">
+                                    <div class="w-full h-[9.5%] flex items-end justify-center relative">
+                                        <div
+                                            class="w-[80%] h-[3%] absolute top-0 mt-[1vh]"
+                                            style="background-image: url(./images/seperator.png); background-size: 100% 100%"
+                                        ></div>
+                                        <div class="w-[55%] h-[60%] flex items-center justify-center cursor-pointer">
+                                            <img
+                                                ref="dashboardpage"
+                                                class="h-full object-contain"
+                                                @click="changeActivePage('dashboardpage')"
+                                                :src="activePage == 'dashboardpage' ? './images/dashboardiconactive.png' : './images/dashboardicon.png'"
+                                                alt=""
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[9%] flex items-end justify-center">
+                                        <div class="w-[55%] h-[60%] cursor-pointer flex items-center justify-center cursor-pointer">
+                                            <img
+                                                ref="transactionpage"
+                                                class="h-full object-contain"
+                                                @click="changeActivePage('transactionpage')"
+                                                :src="activePage == 'transactionpage' ? './images/transactioniconactive.png' : './images/transactionicon.png'"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[9%] flex items-end justify-center">
+                                        <div class="w-[55%] h-[60%] cursor-pointer flex items-center justify-center cursor-pointer">
+                                            <img
+                                                ref="billpage"
+                                                class="h-full object-contain"
+                                                @click="changeActivePage('billpage')"
+                                                :src="activePage == 'billpage' ? './images/billiconactive.png' : './images/billicon.png'"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[9%] flex items-end justify-center">
+                                        <div class="w-[55%] h-[60%] cursor-pointer flex items-center justify-center cursor-pointer">
+                                            <img
+                                                ref="loanpage"
+                                                class="h-full object-contain"
+                                                @click="changeActivePage('loanpage')"
+                                                :src="activePage == 'loanpage' ? './images/loaniconactive.png' : './images/loanicon.png'"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[9%] flex items-end justify-center">
+                                        <div class="w-[55%] h-[60%] cursor-pointer flex items-center justify-center cursor-pointer">
+                                            <img
+                                                ref="savingpage"
+                                                class="h-full object-contain"
+                                                @click="changeActivePage('savingpage')"
+                                                :src="activePage == 'savingpage' ? './images/savingiconactive.png' : './images/savingicon.png'"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[9%] flex items-end justify-center">
+                                        <div class="w-[55%] h-[60%] cursor-pointer flex items-center justify-center cursor-pointer">
+                                            <img
+                                                ref="cryptopage"
+                                                class="h-full object-contain"
+                                                @click="changeActivePage('cryptopage')"
+                                                :src="activePage == 'cryptopage' ? './images/cryptoiconactive.png' : './images/cryptoicon.png'"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[9%] flex items-end justify-center relative">
+                                        <div
+                                            class="w-[80%] h-[2%] absolute top-0 mt-[1.3vh]"
+                                            style="background-image: url(./images/seperator.png); background-size: 100% 100%"
+                                        ></div>
+                                        <div
+                                            v-if="this.$store.state.societydashboardpage.societyAccount.allow"
+                                            class="w-[55%] h-[60%] cursor-pointer flex items-center justify-center cursor-pointer"
+                                        >
+                                            <img
+                                                ref="societydashboardpage"
+                                                class="h-full object-contain"
+                                                @click="changeActivePage('societydashboardpage')"
+                                                :src="activePage == 'societydashboardpage' ? './images/societydashboardactive.png' : './images/societydashboard.png'"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[9.5%] flex items-end justify-center">
+                                        <div
+                                            v-if="this.$store.state.societydashboardpage.societyAccount.allow && this.$store.state.societydashboardpage.societyAccount.jobdata "
+                                            class="w-[55%] h-[60%] cursor-pointer flex items-center justify-center cursor-pointer"
+                                        >
+                                            <img
+                                                ref="societytransactionpage"
+                                                class="h-full object-contain"
+                                                @click="changeActivePage('societytransactionpage')"
+                                                :src="activePage == 'societytransactionpage' ? './images/societytransactionactive.png' : './images/societytransaction.png'"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[13.5%] flex items-end justify-center">
+                                        <div
+                                            v-if="$store.state.dashboardpage.playerData.profiledata && !this.$store.state.dashboardpage.atmAccount"
+                                            class="w-[50%] h-[40%] rounded-full mb-[0.7vh] flex items-center justify-center"
+                                            style="background-image: url(./images/roundedprofile2.png); background-size: 100% 100%"
+                                        >
+                                            <img
+                                                class="h-[80%] object-contain rounded-full"
+                                                @click="changeActivePage('profilepage')"
+                                                :src="$store.state.dashboardpage.playerData.profiledata.avatar"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="w-full h-[7.1%] flex items-end justify-center">
+                                        <div class="w-[50%] h-[55%] flex items-center justify-center cursor-pointer" @click="closeBankPage">
+                                            <img class="h-full object-contain" src="./images/closepage.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-[65.5%] h-full flex-wrap flex items-start justify-start">
+                            <div class="w-full h-[10%] flex items-end justify-end">
+                                <div class="w-full flex items-center justify-start h-[81%] relative">
+                                    <div class="w-[40%] h-full absolute flex items-center justify-start" style="overflow: hidden">
+                                        <transition-group name="openActivePage">
+                                            <div
+                                                class="w-[80%] h-[90%] ml-[1vw]"
+                                                style="background-image: url(./images/notifybg.png); background-size: 100% 100%"
+                                                v-for="notification in notifications"
+                                                :key="notification.id"
+                                            >
+                                                <div class="w-full h-[50%] flex justify-end">
+                                                    <div class="w-[90%] h-full flex items-end justify-start justify-between">
+                                                        <h2 style="font-family: gilroysemibold; color: white; font-size: 0.9vw; line-height: normal">
+                                                            Transaction
+                                                        </h2>
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroysemibold;
+                                                                color: rgba(255, 255, 255, 0.22);
+                                                                font-size: 0.7vw;
+                                                                margin-right: 1vw;
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            1 mn ago
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full h-[50%] flex justify-end">
+                                                    <div class="w-[90%] h-full flex items-center justify-start justify-between">
+                                                        <h2 style="font-family: gilroysemibold; color: white; font-size: 0.6vw; line-height: normal">
+                                                            {{notification.text}}
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </transition-group>
+                                    </div>
+                                    <div class="w-[50%] h-full flex items-center">
+                                        <h2
+                                            style="
+                                                font-family: gilroybold;
+                                                background: #ffffff;
+                                                font-size: 1.1vw;
+                                                margin-left: 1vw;
+                                                background: linear-gradient(to right, #ffffff 0%, #4d4d4d 44%, #a6a4a4 81%);
+                                                -webkit-background-clip: text;
+                                                -webkit-text-fill-color: transparent;
+                                            "
+                                        >
+                                            {{bankPageName(activePage)}}
+                                        </h2>
+                                    </div>
+                                    <div class="w-[50%] h-full flex items-center justify-end">
+                                        <div class="w-[10%] h-[50%] flex items-center justify-center">
+                                            <img class="h-[50%]" src="./images/mastercardicon.png" alt="" />
+                                        </div>
+                                        <div class="w-[15%] h-[50%] flex items-center justify-start">
+                                            <h2 style="font-family: gilroysemibold; color: white; font-size: 0.7vw; line-height: normal">Personal</h2>
+                                        </div>
+                                        <div
+                                            v-if="this.$store.state.dashboardpage.playerData.profiledata"
+                                            class="w-[15%] h-[50%] flex items-center justify-start"
+                                        >
+                                            <h2 style="font-family: gilroysemibold; color: white; font-size: 0.7vw; line-height: normal">
+                                                {{formattediBanNumber}}
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full h-[90%] flex items-start justify-start">
+                                <div class="w-full h-[98%]" style="overflow: hidden">
+                                    <!-- component -->
+                                    <transition-group name="activepage">
+                                        <component v-if="activePage" :is="activePage"></component>
+                                    </transition-group>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-[28.1%] h-full flex items-center justify-start">
+                            <div class="w-[91.5%] h-[93%] flex justify-end relative">
+                                <div
+                                    v-if="notificationPage"
+                                    class="w-[94%] h-full flex relative flex-wrap items-start content-start justify-start"
+                                    style="background-image: url(./images/test.png); background-size: 100% 100%"
+                                >
+                                    <div class="w-full h-[9%] flex items-end justify-center relative">
+                                        <div class="w-[20%] h-[40%] absolute left-0 cursor-pointer" @click="showNotificationPage(false)"></div>
+                                        <h2 style="font-family: gilroymedium; color: white; font-size: 0.9vw; line-height: normal">
+                                            Notification Center
+                                        </h2>
+                                    </div>
+                                    <div
+                                        class="w-full h-[85%] mt-[2vh] flex items-center justify-center relative no-scrollbar"
+                                        style="overflow: auto"
+                                    >
+                                        <div
+                                            class="w-[90%] h-full flex items-start content-start flex-wrap justify-center"
+                                            v-if="this.$store.state.dashboardpage.playerData"
+                                        >
+                                            <div
+                                                v-for="data in this.$store.state.dashboardpage.playerData.pushnotificationdata.slice().reverse()"
+                                                class="w-[88%] h-[9%] mt-[1vh]"
+                                                style="background-image: url(./images/notifybg.png); background-size: 100% 100%"
+                                            >
+                                                <div class="w-full h-[50%] flex justify-end">
+                                                    <div class="w-[90%] h-full flex items-end justify-start justify-between">
+                                                        <h2 style="font-family: gilroysemibold; color: white; font-size: 0.8vw; line-height: normal">
+                                                            {{data.header}}
+                                                        </h2>
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroysemibold;
+                                                                color: rgba(255, 255, 255, 0.22);
+                                                                font-size: 0.7vw;
+                                                                margin-right: 1vw;
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            {{ timeDifference(data.time) }} min ago
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full h-[50%] flex justify-end">
+                                                    <div class="w-[90%] h-full flex items-center justify-start justify-between">
+                                                        <h2 style="font-family: gilroysemibold; color: white; font-size: 0.6vw; line-height: normal">
+                                                            {{data.title}}
+                                                            <span
+                                                                style="font-family: gilroybold"
+                                                                :style="{ color: data.type === '-' ? 'rgba(255, 126, 126, 1)' : 'rgba(117, 245, 166, 1)' }"
+                                                            >
+                                                                {{this.$store.state.dashboardpage.currencyUnit}} {{data.amount}}
+                                                            </span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    v-else
+                                    class="w-[94%] h-full flex relative flex-wrap items-start content-start justify-start"
+                                    style="background-image: url(./images/rightpanel.png); background-size: 100% 100%"
+                                >
+                                    <div class="w-full h-[24%] flex items-end justify-center">
+                                        <div
+                                            class="w-[90%] h-[94%]"
+                                            style="background-image: url(./images/profilebg.png); background-size: 100% 100%"
+                                        >
+                                            <div class="w-full h-[40%] flex items-end justify-center">
+                                                <div class="w-[92%] flex h-[80%]">
+                                                    <div class="w-[19%] h-full flex items-center justify-center">
+                                                        <div
+                                                            v-if="$store.state.dashboardpage.playerData.profiledata"
+                                                            class="w-[95%] h-[95%] rounded-full flex items-center justify-center"
+                                                            style="border: 2px solid white"
+                                                        >
+                                                            <img
+                                                                class="h-[90%] rounded-full"
+                                                                :src="this.$store.state.dashboardpage.playerData.profiledata.avatar"
+                                                                alt=""
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div class="w-[5%] h-full flex items-center justify-center"></div>
+                                                    <div class="w-[60%] h-full flex flex-col items-start justify-center">
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroybold;
+                                                                color: rgba(255, 255, 255, 0.33);
+                                                                font-size: 0.5vw;
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            Welcome
+                                                        </h2>
+                                                        <h2
+                                                            v-if="$store.state.dashboardpage.playerData.profiledata"
+                                                            style="font-family: gilroybold; color: white; font-size: 0.7vw; line-height: normal"
+                                                        >
+                                                            {{this.$store.state.dashboardpage.playerData.profiledata.name}}
+                                                        </h2>
+                                                    </div>
+                                                    <div class="w-[13%] h-full flex items-center justify-center">
+                                                        <img
+                                                            class="h-[70%] object-contain cursor-pointer"
+                                                            @click="showNotificationPage(true)"
+                                                            src="./images/notification.png"
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="w-full h-[17%] flex items-end justify-center">
+                                                <div class="w-[75%] h-[50%]">
+                                                    <h2
+                                                        v-if="activePage == 'dashboardpage'"
+                                                        style="font-family: gilroysemibold; color: white; font-size: 0.7vw; line-height: normal"
+                                                    >
+                                                        Cash Balance
+                                                    </h2>
+                                                    <h2
+                                                        v-else
+                                                        style="font-family: gilroysemibold; color: white; font-size: 0.7vw; line-height: normal"
+                                                    >
+                                                        Bank Balance
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            <div class="w-full h-[39%] flex items-center justify-center">
+                                                <div
+                                                    class="w-[75%] h-[70%] rounded-[0.5vw] flex items-center justify-center"
+                                                    style="background: linear-gradient(92deg, #6fb8ff 0%, #294e73 100%)"
+                                                >
+                                                    <h2
+                                                        v-if="activePage == 'dashboardpage'"
+                                                        style="font-family: gilroybold; color: #161616; font-size: 1vw; line-height: normal"
+                                                    >
+                                                        {{this.$store.state.dashboardpage.currencyUnit}}
+                                                        {{this.$store.state.dashboardpage.playerMoneyData.money.toLocaleString()}}
+                                                    </h2>
+                                                    <h2 v-else style="font-family: gilroybold; color: #161616; font-size: 1vw; line-height: normal">
+                                                        {{this.$store.state.dashboardpage.currencyUnit}}
+                                                        {{this.$store.state.dashboardpage.playerMoneyData.bank.toLocaleString()}}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        v-if="activePage == 'dashboardpage' || activePage == 'transactionpage' || activePage == 'profilepage' || activePage == 'billpage' "
+                                        class="w-full h-[76%]"
+                                    >
+                                        <div class="w-full h-[8%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center justify-start">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    My Cards
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[32.2%] flex items-center justify-center">
+                                            <div
+                                                class="w-[85%] h-[90%]"
+                                                style="
+                                                    background-image: url(./images/personalcard.png);
+                                                    background-size: 100% 100%;
+                                                    object-fit: contain;
+                                                "
+                                            >
+                                                <div class="w-full h-[60%] flex items-end justify-end">
+                                                    <h2
+                                                        v-if="this.$store.state.dashboardpage.playerMoneyData"
+                                                        style="
+                                                            font-family: gilroybold;
+                                                            font-size: 1.2vw;
+                                                            margin-right: 1.5vw;
+                                                            line-height: normal;
+                                                            background: linear-gradient(90deg, #44698d 0%, rgba(0, 0, 0, 0) 138.29%);
+                                                            background-clip: text;
+                                                            -webkit-background-clip: text;
+                                                            -webkit-text-fill-color: transparent;
+                                                        "
+                                                    >
+                                                        {{this.$store.state.dashboardpage.currencyUnit}}
+                                                        {{this.$store.state.dashboardpage.playerMoneyData.bank.toLocaleString()}}
+                                                    </h2>
+                                                </div>
+                                                <div class="w-full h-[30%] flex items-end justify-start">
+                                                    <div class="w-[50%] h-[80%] flex items-center justify-center">
+                                                        <h2
+                                                            style="
+                                                                font-family: sf-pro-rounded-bold;
+                                                                color: #212121;
+                                                                font-size: 0.7vw;
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            PERSONAL
+                                                        </h2>
+                                                    </div>
+                                                    <div class="w-[50%] h-[80%] flex items-center justify-center">
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroysemibold;
+                                                                font-size: 0.7vw;
+                                                                line-height: normal;
+                                                                background: linear-gradient(90deg, #44698d 0%, rgba(0, 0, 0, 0) 138.29%);
+                                                                background-clip: text;
+                                                                -webkit-background-clip: text;
+                                                                -webkit-text-fill-color: transparent;
+                                                            "
+                                                        >
+                                                            **** **** **{{formattediBanNumber}}
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[5%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    Recent Activities
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div
+                                            v-if="this.$store.state.dashboardpage.playerData.notificationdata"
+                                            class="w-full h-[55%] flex items-start justify-center content-start flex-wrap no-scrollbar"
+                                            style="overflow: auto"
+                                        >
+                                            <div
+                                                v-for="data in topFourNotifications"
+                                                class="w-[90%] h-[15.5%] flex mt-[1vh] rounded-[0.5vw]"
+                                                style="background-color: rgba(217, 217, 217, 0.03)"
+                                            >
+                                                <div class="w-[15%] h-full flex items-center justify-center">
+                                                    <img class="h-[60%]" :src="iconSource(data.icon)" alt="" />
+                                                </div>
+                                                <div class="w-[50%] h-full flex items-center">
+                                                    <h2
+                                                        style="
+                                                            font-family: gilroybold;
+                                                            color: rgba(255, 255, 255, 0.33);
+                                                            font-size: 0.7vw;
+                                                            text-indent: 0.6vw;
+                                                            line-height: normal;
+                                                        "
+                                                    >
+                                                        {{data.to}}
+                                                    </h2>
+                                                </div>
+                                                <div class="w-[35%] h-full flex items-center justify-end">
+                                                    <h2
+                                                        :style="{'color' : data.type == '-' ? '#FF7E7E' : '#A0FF7E'}"
+                                                        style="
+                                                            font-family: gilroybold;
+                                                            font-size: 0.7vw;
+                                                            text-indent: 0.5vw;
+                                                            margin-right: 0.5vw;
+                                                            line-height: normal;
+                                                        "
+                                                    >
+                                                        {{data.type}} {{$store.state.dashboardpage.currencyUnit}} {{data.amount}}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="activePage == 'cryptopage'" class="w-full h-[76%]" style="overflow: hidden">
+                                        <div class="w-full h-[8%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center justify-start">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    My Crypto Coins
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[32.2%] flex items-center justify-center relative" style="overflow: hidden">
+                                            <div
+                                                v-if="$store.state.dashboardpage.playerData.cryptodata "
+                                                class="w-[8%] h-full absolute left-0 flex items-center justify-center"
+                                            >
+                                                <img class="h-[8%] object-contain" id="mainswiperright" src="./images/righticon.png" alt="" />
+                                            </div>
+                                            <div
+                                                class="w-[8%] h-full absolute right-0 flex items-center justify-center"
+                                                v-if="$store.state.dashboardpage.playerData.cryptodata "
+                                            >
+                                                <img
+                                                    id="mainswiperleft"
+                                                    class="h-[8%] object-contain"
+                                                    style="transform: rotate(180deg)"
+                                                    src="./images/righticon.png"
+                                                    alt=""
+                                                />
+                                            </div>
+                                            <div
+                                                v-if="$store.state.dashboardpage.playerData.cryptodata && this.$store.state.dashboardpage.playerData.cryptodata.length == 0"
+                                                class="w-[86%] h-[90%] rounded-[0.5vw] flex items-center justify-center"
+                                                style="background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <h2
+                                                    style="
+                                                        font-family: gilroymedium;
+                                                        color: rgba(255, 255, 255, 0.48);
+                                                        font-size: 0.8vw;
+                                                        line-height: normal;
+                                                    "
+                                                >
+                                                    You don’t have any crpyto coin.
+                                                </h2>
+                                            </div>
+
+                                            <div
+                                                v-if="$store.state.dashboardpage.playerData.cryptodata && this.$store.state.dashboardpage.playerData.cryptodata.length > 0"
+                                                id="mainswiper"
+                                                class="w-[86%] h-[90%] rounded-[0.5vw] flex items-center justify-center"
+                                                style="overflow: hidden; background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <div class="swiper-wrapper w-full h-full">
+                                                    <div
+                                                        v-for="(data,index) in $store.state.dashboardpage.playerData.cryptodata"
+                                                        style="background-size: 100% 100%"
+                                                        :style="{'background-image' : 'url(./images/'+data.bitcoinbg+')'}"
+                                                        class="w-full h-full swiper-slide"
+                                                    >
+                                                        <div class="w-full h-[25%] flex items-center">
+                                                            <h2
+                                                                class="ml-[2.5vw] mt-[0.9vh]"
+                                                                style="font-family: gilroyheavy; color: white; font-size: 0.7vw"
+                                                            >
+                                                                {{data.bitcoinlabel}}
+                                                            </h2>
+                                                        </div>
+                                                        <div class="w-full h-[75%] flex items-end justify-center">
+                                                            <div class="w-full h-[50%] flex">
+                                                                <div class="w-[50%] h-full flex items-center justify-start">
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        {{data.bitcoinamount}} {{data.bitcoinname}}
+                                                                    </h2>
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        {{data.bitcoinamount}} {{data.bitcoinname}}
+                                                                    </h2>
+                                                                </div>
+                                                                <div
+                                                                    v-if="data.price"
+                                                                    class="w-[50%] h-full flex items-center justify-center relative"
+                                                                >
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        {{$store.state.dashboardpage.currencyUnit}} {{(data.bitcoinamount *
+                                                                        data.price).toLocaleString()}}
+                                                                    </h2>
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        {{$store.state.dashboardpage.currencyUnit}} {{(data.bitcoinamount *
+                                                                        data.price).toLocaleString()}}
+                                                                    </h2>
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        {{$store.state.dashboardpage.currencyUnit}} {{(data.bitcoinamount *
+                                                                        data.price).toLocaleString()}}
+                                                                    </h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[5%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    Coin Details
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[50%] flex items-center justify-center">
+                                            <div
+                                                v-if="!fakeData"
+                                                class="w-[86%] h-[90%] flex items-center justify-start rounded-[0.5vw]"
+                                                style="background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <h2
+                                                    style="
+                                                        font-family: gilroymedium;
+                                                        color: rgba(255, 255, 255, 0.48);
+                                                        font-size: 0.8vw;
+                                                        text-align: center;
+                                                        line-height: normal;
+                                                    "
+                                                >
+                                                    Click a crypto coin from your coins to display coin details.
+                                                </h2>
+                                            </div>
+                                            <div
+                                                v-if="fakeData && fakeData.price"
+                                                class="w-[86%] h-[90%] flex items-start flex-wrap content-start justify-start rounded-[0.5vw]"
+                                                style="background-image: url(./images/coindetails.png); background-size: 100% 100%"
+                                            >
+                                                <div class="w-full h-[15%] flex">
+                                                    <div class="w-[15%] h-full flex items-center justify-center">
+                                                        <img :src="'./images/'+fakeData.bitcoinname+'.png'" class="h-[50%] object-contain" alt="" />
+                                                    </div>
+                                                    <div class="w-[40%] h-full flex items-center">
+                                                        <h2
+                                                            class=" "
+                                                            style="font-family: gilroyheavy; line-height: none; color: white; font-size: 0.7vw"
+                                                        >
+                                                            {{fakeData.bitcoinlabel}}
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full h-[37%] flex flex-col items-center justify-end">
+                                                    <h2
+                                                        class=" "
+                                                        style="font-family: gilroysemibold; line-height: none; color: #7ec1ff; font-size: 0.6vw"
+                                                    >
+                                                        You have
+                                                    </h2>
+                                                    <h2 class=" " style="font-family: gilroyheavy; line-height: none; color: white; font-size: 1vw">
+                                                        {{fakeData.bitcoinamount}} {{fakeData.bitcoinname}}
+                                                    </h2>
+                                                </div>
+                                                <div class="w-full h-[22%] flex items-end justify-center">
+                                                    <h2 class=" " style="font-family: gilroyheavy; line-height: none; color: #7ec1ff; font-size: 1vw">
+                                                        {{this.$store.state.dashboardpage.currencyUnit}} {{(fakeData.bitcoinamount *
+                                                        fakeData.price).toLocaleString()}}
+                                                    </h2>
+                                                </div>
+                                                <div class="w-full h-[24%] flex items-center justify-center">
+                                                    <div
+                                                        class="w-[28%] h-[60%] flex items-center justify-center rounded-[0.5vw]"
+                                                        style="background-color: rgba(217, 217, 217, 0.07)"
+                                                    >
+                                                        <input
+                                                            type="text"
+                                                            @input="checkInput"
+                                                            v-model="bitcoinValue"
+                                                            class="w-full h-full text-center flex items-center justify-center"
+                                                            placeholder="Amount"
+                                                            style="
+                                                                background-color: transparent;
+                                                                color: rgba(255, 255, 255, 0.41);
+                                                                font-size: 0.7vw;
+                                                                font-family: gilroysemibold;
+                                                                border: none;
+                                                                outline: none;
+                                                            "
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="w-[28%] h-[60%] flex items-center justify-center ml-[0.5vw] rounded-[0.5vw] cursor-pointer"
+                                                        style="background-color: #3e73c4"
+                                                        @click="sellCrypto('single', fakeData)"
+                                                    >
+                                                        <h2
+                                                            class=" "
+                                                            style="font-family: gilroybold; line-height: none; color: white; font-size: 0.7vw"
+                                                        >
+                                                            Sell
+                                                        </h2>
+                                                    </div>
+                                                    <div
+                                                        class="w-[28%] h-[60%] flex items-center justify-center ml-[0.5vw] rounded-[0.5vw] cursor-pointer"
+                                                        style="background-color: #7ec1ff"
+                                                        @click="sellCrypto('all', fakeData)"
+                                                    >
+                                                        <h2
+                                                            class=" "
+                                                            style="font-family: gilroybold; line-height: none; color: white; font-size: 0.7vw"
+                                                        >
+                                                            Sell All
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="activePage == 'loanpage'" class="w-full h-[76%]" style="overflow: hidden">
+                                        <div class="w-full h-[8%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center justify-start">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    My Loans
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[32.2%] flex items-center justify-center relative" style="overflow: hidden">
+                                            <div
+                                                v-if="$store.state.dashboardpage.playerData.loandata && this.$store.state.dashboardpage.playerData.loandata.length == 0"
+                                                class="w-[86%] h-[90%] rounded-[0.5vw] flex items-center justify-center"
+                                                style="background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <h2
+                                                    style="
+                                                        font-family: gilroymedium;
+                                                        color: rgba(255, 255, 255, 0.48);
+                                                        font-size: 0.8vw;
+                                                        line-height: normal;
+                                                    "
+                                                >
+                                                    You have no active loans.
+                                                </h2>
+                                            </div>
+
+                                            <div
+                                                v-else
+                                                class="w-[86%] h-[90%] rounded-[0.5vw] flex items-center justify-center"
+                                                style="overflow: hidden; background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <div class="swiper-wrapper w-full h-full">
+                                                    <div
+                                                        style="background-size: 100% 100%"
+                                                        :style="{'background-image' : 'url(./images/'+this.$store.state.dashboardpage.playerData.loandata.loanbackground+')'}"
+                                                        class="w-full h-full swiper-slide"
+                                                    >
+                                                        <div class="w-full h-[25%] flex items-center">
+                                                            <h2
+                                                                class="ml-[1vw] mt-[0.9vh]"
+                                                                style="font-family: gilroyheavy; color: white; font-size: 0.9vw"
+                                                            >
+                                                                {{this.$store.state.dashboardpage.playerData.loandata.loanLabel}}
+                                                            </h2>
+                                                        </div>
+                                                        <div class="w-full h-[75%] flex items-end justify-center">
+                                                            <div class="w-full h-[50%] flex">
+                                                                <div class="w-[50%] h-full flex items-center justify-start">
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="font-family: gilroymedium; color: white; font-size: 0.7vw"
+                                                                    >
+                                                                        {{this.$store.state.dashboardpage.playerData.loandata.loanInterest}}% Interest
+                                                                    </h2>
+                                                                </div>
+                                                                <div
+                                                                    v-if="this.$store.state.dashboardpage.playerData.loandata.amount"
+                                                                    class="w-[50%] h-full flex items-center justify-center relative"
+                                                                >
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        {{$store.state.dashboardpage.currencyUnit}}
+                                                                        {{this.$store.state.dashboardpage.playerData.loandata.amount.toLocaleString()}}
+                                                                    </h2>
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        {{$store.state.dashboardpage.currencyUnit}}
+                                                                        {{this.$store.state.dashboardpage.playerData.loandata.amount.toLocaleString()}}
+                                                                    </h2>
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        {{$store.state.dashboardpage.currencyUnit}}
+                                                                        {{this.$store.state.dashboardpage.playerData.loandata.amount.toLocaleString()}}
+                                                                    </h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[5%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    Loan Details
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[50%] flex items-center justify-center">
+                                            <div
+                                                v-if="$store.state.dashboardpage.playerData.loandata && this.$store.state.dashboardpage.playerData.loandata.length == 0"
+                                                class="w-[86%] h-[90%] flex items-center justify-center rounded-[0.5vw]"
+                                                style="background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <h2
+                                                    style="
+                                                        font-family: gilroymedium;
+                                                        color: rgba(255, 255, 255, 0.48);
+                                                        font-size: 0.8vw;
+                                                        text-align: center;
+                                                        line-height: normal;
+                                                    "
+                                                >
+                                                    Take a loan to display loan details.
+                                                </h2>
+                                            </div>
+                                            <div
+                                                v-else
+                                                class="w-[86%] h-[90%] flex items-start flex-wrap content-start justify-start rounded-[0.5vw]"
+                                                style="background-image: url(./images/loanbackground.png); background-size: 100% 100%"
+                                            >
+                                                <div class="w-full h-[50%] flex items-end justify-center">
+                                                    <div class="w-[40%] h-[55%] flex flex-col items-center justify-center">
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroymedium;
+                                                                color: #7ec1ff;
+                                                                font-size: 0.8vw;
+                                                                text-align: center;
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            {{$store.state.dashboardpage.currencyUnit}}
+                                                            {{this.$store.state.dashboardpage.playerData.loandata.minRequiredPaymentPerDay.toLocaleString()}}
+                                                        </h2>
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroymedium;
+                                                                color: rgba(255, 255, 255, 0.48);
+                                                                font-size: 0.6vw;
+                                                                text-align: center;
+
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            Needs to be paid
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full h-[50%] flex items-start flex-wrap content-start justify-center">
+                                                    <div class="w-[90%] h-[60%] flex flex-wrap items-end justify-start">
+                                                        <div class="w-[50%] h-[50%]">
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.8vw;
+                                                                    text-align: start;
+
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                Interest
+                                                            </h2>
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.8vw;
+                                                                    text-align: start;
+
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                {{this.$store.state.dashboardpage.playerData.loandata.loanInterest}}%
+                                                            </h2>
+                                                        </div>
+                                                        <div class="w-[50%] h-[50%]">
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.8vw;
+                                                                    text-align: end;
+
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                Total Payment
+                                                            </h2>
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.8vw;
+                                                                    text-align: end;
+
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                {{$store.state.dashboardpage.currencyUnit}}
+                                                                {{this.$store.state.dashboardpage.playerData.loandata.requiredPayment.toLocaleString()}}
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="w-[90%] h-[40%] flex flex-wrap items-center justify-around">
+                                                        <div
+                                                            class="w-[28%] h-[60%] ml-[0.5vw] flex items-center justify-center rounded-[0.5vw] cursor-pointer"
+                                                            style="background: linear-gradient(93deg, #7ec1ff 0%, #2978c1 99.72%)"
+                                                            @click="payLoan('single')"
+                                                        >
+                                                            <h2 style="font-family: gilroybold; color: white; font-size: 0.8vw; line-height: normal">
+                                                                Pay
+                                                            </h2>
+                                                        </div>
+                                                        <div
+                                                            class="w-[28%] h-[60%] ml-[0.5vw] flex items-center justify-center rounded-[0.5vw] cursor-pointer"
+                                                            style="background: linear-gradient(93deg, #7ec1ff 0%, #2978c1 99.72%)"
+                                                            @click="payLoan('all')"
+                                                        >
+                                                            <h2 style="font-family: gilroybold; color: white; font-size: 0.8vw; line-height: normal">
+                                                                Pay All
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="activePage == 'savingpage'" class="w-full h-[76%]" style="overflow: hidden">
+                                        <div class="w-full h-[8%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center justify-start">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    My Saving Offer
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[32.2%] flex items-center justify-center relative" style="overflow: hidden">
+                                            <div
+                                                v-if="$store.state.dashboardpage.playerData.savingdata && this.$store.state.dashboardpage.playerData.savingdata.length == 0"
+                                                class="w-[86%] h-[90%] rounded-[0.5vw] flex items-center justify-center"
+                                                style="background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <h2
+                                                    style="
+                                                        font-family: gilroymedium;
+                                                        color: rgba(255, 255, 255, 0.48);
+                                                        font-size: 0.8vw;
+                                                        line-height: normal;
+                                                    "
+                                                >
+                                                    You have no active savings offers.
+                                                </h2>
+                                            </div>
+
+                                            <div
+                                                v-else
+                                                class="w-[86%] h-[90%] rounded-[0.5vw] flex items-center justify-center"
+                                                style="overflow: hidden; background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <div class="swiper-wrapper w-full h-full">
+                                                    <div
+                                                        style="background-size: 100% 100%"
+                                                        :style="{'background-image' : 'url(./images/'+this.$store.state.dashboardpage.playerData.savingdata.loanbackground+')'}"
+                                                        class="w-full h-full swiper-slide"
+                                                    >
+                                                        <div class="w-full h-[25%] flex items-center">
+                                                            <h2
+                                                                class="ml-[1vw] mt-[0.9vh]"
+                                                                style="font-family: gilroyheavy; color: white; font-size: 0.9vw"
+                                                            >
+                                                                {{this.$store.state.dashboardpage.playerData.savingdata.label}}
+                                                            </h2>
+                                                        </div>
+                                                        <div class="w-full h-[75%] flex items-end justify-center">
+                                                            <div class="w-full h-[50%] flex">
+                                                                <div class="w-[50%] h-full flex items-center justify-start overflow-hidden">
+                                                                    <h2
+                                                                        class="ml-[1vw] text-start"
+                                                                        style="
+                                                                            font-family: gilroymedium;
+                                                                            color: rgba(255, 255, 255, 0.92);
+                                                                            font-size: 0.7vw;
+                                                                        "
+                                                                    >
+                                                                        {{this.$store.state.dashboardpage.playerData.savingdata.label2}}
+                                                                    </h2>
+                                                                </div>
+                                                                <div
+                                                                    v-if="this.$store.state.dashboardpage.playerData.savingdata.interest"
+                                                                    class="w-[50%] h-full flex items-center justify-center relative"
+                                                                >
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        % {{this.$store.state.dashboardpage.playerData.savingdata.interest}}
+                                                                    </h2>
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        % {{this.$store.state.dashboardpage.playerData.savingdata.interest}}
+                                                                    </h2>
+                                                                    <h2
+                                                                        class="ml-[1vw] absolute"
+                                                                        style="
+                                                                            font-family: gilroyheavy;
+                                                                            mix-blend-mode: overlay;
+                                                                            color: white;
+                                                                            font-size: 1vw;
+                                                                        "
+                                                                    >
+                                                                        % {{this.$store.state.dashboardpage.playerData.savingdata.interest}}
+                                                                    </h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[5%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    Offer Details
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[50%] flex items-center justify-center">
+                                            <div
+                                                v-if="$store.state.dashboardpage.playerData.savingdata && this.$store.state.dashboardpage.playerData.savingdata.length == 0"
+                                                class="w-[86%] h-[90%] flex items-center justify-center rounded-[0.5vw]"
+                                                style="background-color: rgba(0, 0, 0, 0.363)"
+                                            >
+                                                <h2
+                                                    style="
+                                                        font-family: gilroymedium;
+                                                        color: rgba(255, 255, 255, 0.48);
+                                                        font-size: 0.8vw;
+                                                        text-align: center;
+                                                        line-height: normal;
+                                                    "
+                                                >
+                                                    Take a saving offer to display offer details.
+                                                </h2>
+                                            </div>
+                                            <div
+                                                v-else
+                                                class="w-[86%] h-[90%] flex items-start flex-wrap content-start justify-start rounded-[0.5vw]"
+                                                style="background-image: url(./images/savingbg.png); background-size: 100% 100%"
+                                            >
+                                                <div class="w-full h-[50%] flex items-end justify-center relative">
+                                                    <div class="w-[90%] h-[30%] absolute top-0 flex">
+                                                        <div class="w-[50%] h-full flex flex-col items-start justify-center">
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: #7ec1ff;
+                                                                    font-size: 0.7vw;
+                                                                    text-align: center;
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                Start Date
+                                                            </h2>
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.6vw;
+                                                                    text-align: center;
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                {{this.$store.state.dashboardpage.playerData.savingdata.day}}
+                                                            </h2>
+                                                        </div>
+                                                        <div class="w-[50%] h-full flex flex-col items-end justify-center">
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: #7ec1ff;
+                                                                    font-size: 0.7vw;
+                                                                    text-align: center;
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                Finish Date
+                                                            </h2>
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.6vw;
+                                                                    text-align: center;
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                {{this.$store.state.dashboardpage.playerData.savingdata.finishdate}}
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="w-[40%] h-[55%] flex flex-col items-center justify-center">
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroymedium;
+                                                                color: rgba(255, 255, 255, 0.48);
+                                                                font-size: 0.6vw;
+                                                                text-align: center;
+
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            Total
+                                                        </h2>
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroymedium;
+                                                                color: #7ec1ff;
+                                                                font-size: 0.8vw;
+                                                                text-align: center;
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            {{$store.state.dashboardpage.currencyUnit}}
+                                                            {{(this.$store.state.dashboardpage.playerData.savingdata.totalAmount -
+                                                            this.$store.state.dashboardpage.playerData.savingdata.amount).toLocaleString()}}
+                                                        </h2>
+                                                        <h2
+                                                            style="
+                                                                font-family: gilroymedium;
+                                                                color: rgba(255, 255, 255, 0.48);
+                                                                font-size: 0.6vw;
+                                                                text-align: center;
+
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            Profit
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                                <div class="w-full h-[50%] flex items-start flex-wrap content-start justify-center">
+                                                    <div class="w-[90%] h-[60%] flex flex-wrap items-end justify-start">
+                                                        <div class="w-[50%] h-[50%]">
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.8vw;
+                                                                    text-align: start;
+
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                Offer
+                                                            </h2>
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.8vw;
+                                                                    text-align: start;
+
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                {{this.$store.state.dashboardpage.playerData.savingdata.interest}} %
+                                                            </h2>
+                                                        </div>
+                                                        <div class="w-[50%] h-[50%]">
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.8vw;
+                                                                    text-align: end;
+
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                Amount
+                                                            </h2>
+                                                            <h2
+                                                                style="
+                                                                    font-family: gilroymedium;
+                                                                    color: rgba(255, 255, 255, 0.48);
+                                                                    font-size: 0.8vw;
+                                                                    text-align: end;
+
+                                                                    line-height: normal;
+                                                                "
+                                                            >
+                                                                {{$store.state.dashboardpage.currencyUnit}}
+                                                                {{this.$store.state.dashboardpage.playerData.savingdata.amount.toLocaleString()}}
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="w-[90%] h-[40%] flex flex-wrap items-center justify-around">
+                                                        <div
+                                                            class="w-[32%] h-[60%] flex items-center justify-center rounded-[0.5vw] cursor-pointer"
+                                                            style="background: linear-gradient(93deg, #ff8c8c 0%, #ffadad 99.72%)"
+                                                            @click="cancelSaving"
+                                                        >
+                                                            <h2 style="font-family: gilroybold; color: white; font-size: 0.8vw; line-height: normal">
+                                                                Cancel
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="activePage == 'societydashboardpage' || activePage == 'societytransactionpage'" class="w-full h-[76%]">
+                                        <div class="w-full h-[8%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center justify-start">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    My Cards
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[32.2%] flex items-center justify-center">
+                                            <div
+                                                class="w-[85%] h-[90%]"
+                                                style="
+                                                    background-image: url(./images/societycard.png);
+                                                    background-size: 100% 100%;
+                                                    object-fit: contain;
+                                                "
+                                            >
+                                                <div class="w-full h-[60%] flex items-end justify-end">
+                                                    <h2
+                                                        v-if="this.$store.state.dashboardpage.playerMoneyData"
+                                                        style="
+                                                            font-family: sf-pro-rounded-bold;
+                                                            font-size: 1.2vw;
+                                                            margin-right: 1.5vw;
+                                                            line-height: normal;
+                                                            background: linear-gradient(90deg, #60448d 0%, rgba(0, 0, 0, 0) 138.29%);
+                                                            background-clip: text;
+                                                            -webkit-background-clip: text;
+                                                            -webkit-text-fill-color: transparent;
+                                                        "
+                                                    >
+                                                        {{this.$store.state.dashboardpage.currencyUnit}}
+                                                        {{this.$store.state.societydashboardpage.societyMoney.toLocaleString()}}
+                                                    </h2>
+                                                </div>
+                                                <div class="w-full h-[30%] flex items-end justify-start">
+                                                    <div class="w-[50%] h-[80%] flex items-center justify-center">
+                                                        <h2
+                                                            style="
+                                                                font-family: sf-pro-rounded-bold;
+                                                                color: #212121;
+                                                                font-size: 0.8vw;
+                                                                line-height: normal;
+                                                            "
+                                                        >
+                                                            {{this.$store.state.dashboardpage.myJob}}
+                                                        </h2>
+                                                    </div>
+                                                    <div class="w-[50%] h-[80%] flex items-center justify-center">
+                                                        <h2
+                                                            v-if="this.$store.state.dashboardpage.playerData.profiledata"
+                                                            style="
+                                                                font-family: gilroysemibold;
+                                                                font-size: 0.7vw;
+                                                                line-height: normal;
+                                                                background: linear-gradient(90deg, #60448d 0%, rgba(0, 0, 0, 0) 138.29%);
+                                                                background-clip: text;
+                                                                -webkit-background-clip: text;
+                                                                -webkit-text-fill-color: transparent;
+                                                            "
+                                                        >
+                                                            {{formattediBanNumberJob}}
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full h-[5%] flex items-end justify-center">
+                                            <div class="w-[86%] h-[75%] flex items-center">
+                                                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw; line-height: normal">
+                                                    Recent Activities
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div
+                                            v-if="this.$store.state.societydashboardpage.societyAccount.jobdata"
+                                            class="w-full h-[55%] flex items-start justify-center content-start flex-wrap no-scrollbar"
+                                            style="overflow: auto"
+                                        >
+                                            <div
+                                                v-for="data in topFourNotificationsSociety"
+                                                class="w-[90%] h-[15.5%] flex mt-[1vh] rounded-[0.5vw]"
+                                                style="background-color: rgba(217, 217, 217, 0.03)"
+                                            >
+                                                <div class="w-[15%] h-full flex items-center justify-center">
+                                                    <img class="h-[60%]" :src="iconSource(data.icon)" alt="" />
+                                                </div>
+                                                <div class="w-[50%] h-full flex items-center">
+                                                    <h2
+                                                        style="
+                                                            font-family: gilroybold;
+                                                            color: rgba(255, 255, 255, 0.33);
+                                                            font-size: 0.7vw;
+                                                            text-indent: 0.6vw;
+                                                            line-height: normal;
+                                                        "
+                                                    >
+                                                        {{data.to}}
+                                                    </h2>
+                                                </div>
+                                                <div class="w-[35%] h-full flex items-center justify-end">
+                                                    <h2
+                                                        :style="{'color' : data.type == '-' ? '#FF7E7E' : '#A0FF7E'}"
+                                                        style="
+                                                            font-family: gilroybold;
+                                                            font-size: 0.7vw;
+                                                            text-indent: 0.5vw;
+                                                            margin-right: 0.5vw;
+                                                            line-height: normal;
+                                                        "
+                                                    >
+                                                        {{data.type}} {{$store.state.dashboardpage.currencyUnit}} {{data.amount}}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition-group>
+        </div>
+        <script src="https://unpkg.com/swiper@5.3.8/js/swiper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="./js/app.js" type="module"></script>
+    </body>
+</html>

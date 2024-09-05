@@ -1,0 +1,8 @@
+1. Proplist for your prop whitelist/blakclist
+prop_cocktail
+v_ind_cfscoop
+prop_bar_cockshakropn
+prop_bar_cockshaker
+prop_bar_beans
+prop_bar_nuts
+prop_sh_tall_glass

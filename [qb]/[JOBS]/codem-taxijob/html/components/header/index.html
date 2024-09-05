@@ -1,0 +1,25 @@
+<div class="header">
+    <div class="header-left">
+        <div class="header-buttons">
+            <div :class="{active : activePage == 'mainpage'}" @click="setActivePage('mainpage')" class="header-button">{{locales.dcc_main}}</div>
+            <div :class="{active : activePage == 'vip'}" @click="setActivePage('vip')" class="header-button">{{locales.dcc_vip}}</div>
+            <div :class="{active : activePage == 'leaderboard'}" @click="setActivePage('leaderboard')" class="header-button">{{locales.leaderboard}}</div>
+            <div :class="{active : activePage == 'profile'}" @click="setActivePage('profile')" class="header-button">{{locales.profile}}</div>
+        </div>
+        <div class="header-line"></div>
+    </div>
+    <div class="header-right">
+        <div class="header-name-lv-container">
+            <p class="header-name">{{playerData.name}}</p>
+            <div class="header-level">
+                <p>Lv.{{playerData.level}}</p>
+                <img src="./assets/images/level-icon.png">
+            </div>
+
+        </div>
+        <div class="header-pp-container">
+            <img :src="playerData.avatar" v-if="playerData.avatar">
+            <img src="/html/assets/images/test-pp.png" v-else>
+        </div>
+    </div>
+</div>

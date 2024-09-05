@@ -1,0 +1,137 @@
+<div class="main">
+    <div class="mission" :style="getMissionBG">
+        <div class="missions">
+            <div @click="selectMission(0, missions[0].level)" :class="{selected : selectedMission==0}" class="select-mission mission-1">
+                <h1>{{locales.downtown_cab_area}}</h1>
+                <img v-if="playerData.level >= missions[0].level" src="./assets/images/unlocked.png">
+                <img v-else src="./assets/images/locked.png">
+            
+            </div>
+            <div @click="selectMission(1, missions[1].level)" :class="{selected : selectedMission==1}" class="select-mission mission-2">
+                <h1>{{locales.sandy_cab_area}}</h1>
+                <img v-if="playerData.level >= missions[1].level" src="./assets/images/unlocked.png">
+                <img v-else src="./assets/images/locked.png">
+            
+            </div>
+            <div @click="selectMission(2, missions[2].level)" :class="{selected : selectedMission==2}" class="select-mission mission-3">
+                <h1>{{locales.paleto_cab_area}}</h1>
+                <img v-if="playerData.level >= missions[2].level" src="./assets/images/unlocked.png">
+                <img v-else src="./assets/images/locked.png">
+            </div>
+        </div>
+        <h1 class="mission-header">{{missions?.[selectedMission]?.header}}</h1>
+        <div class="mission-requirements">
+            <div class="mission-requirement">
+                <img src="./assets/images/civilian.png">
+                <p>{{locales.civilian_or_player}}</p>
+            </div>
+            <div class="mission-requirement">
+                <img src="./assets/images/dollar-icon.png">
+                <p>${{missions?.[selectedMission]?.minPayment}} - {{missions?.[selectedMission]?.maxPayment}} {{locales.per_customer}}
+                </p>
+            </div>
+            <div class="mission-requirement">
+                <img src="./assets/images/xp-icon.png">
+                <p>{{missions?.[selectedMission]?.minXP}} - {{missions?.[selectedMission]?.maxXP}} {{locales.per_xp}}</p>
+            </div>
+            <div class="mission-requirement">
+                <img src="./assets/images/req-lv-icon.png">
+                <p :class="{highlighted : playerData.level < missions[selectedMission].level}">Lv.{{missions?.[selectedMission]?.level}} {{locales.required}}</p>
+            </div>
+        </div>
+        <div class="select-button" @click="setMissionRealIndex">{{selectedMissionRealIndex.toString()==selectedMission.toString() ? locales.selected_area : locales.select_area}}</div>
+    </div>
+    <div class="main-bottom">
+        <div class="daily-missions">
+            <div class="daily-missions-header">
+                <div class="flex items-center gap-x-3">
+                    <img src="./assets/images/dailymission-icon.png">
+                    <h1>{{locales.daily_missions}}</h1>
+                </div>
+                <p class="daily-mission-remain-hours">{{getDailyMissionRemainHours}}hr</p>
+            </div>
+            <div class="daily-missions-container">
+                <div class="daily-mission-container" v-for="dailymission in playerData.dailymissions?.data">
+                    <div class="flex items-center justify-between">
+                        <h1>{{dailymission?.header}}</h1>
+                        <h2>{{dailymission?.xp}}XP</h2>
+                    </div>
+                    <p class="daily-mission-desc">{{dailymission?.label}}</p>
+                    <p class="daily-mission-status" :class="{completed : dailymission.process >= dailymission.max}">{{dailymission.process >= dailymission.max ? locales.completed : locales.not_completed}} </p>
+                </div>
+            </div>
+        </div>
+        <div class="vehicle">
+            <p class="vehicle-header">
+                {{locales.select_vehicle_2}}
+            </p>
+            <div class="flex items-center justify-center mt-4 gap-x-6">
+                <img @click="selectPrevVehicle" class="vehicle-arrow" src="./assets/images/left-arrow.png">
+                <p class="vehicle-name">{{vehicles?.[selectedVehicleIndex]?.label}}</p>
+                <img @click="selectNextVehicle" class="vehicle-arrow" src="./assets/images/right-arrow.png">
+            </div>
+            <img class="mt-2" :src="'./assets/images/' + vehicles?.[selectedVehicleIndex]?.image">
+            <div class="select-vehicle-button" @click="setVehicleRealIndex">{{playerData.level >= vehicles?.[selectedVehicleIndex]?.level ?  selectedVehicleRealIndex==selectedVehicleIndex ? locales.selected_vehicle : locales.select_vehicle_3 : 'Lv.'+vehicles?.[selectedVehicleIndex]?.level + locales.required}}</div>
+            <img src="./assets/images/vehicle-effect.png" class="vehicle-effect">
+        </div>
+        <div class="start-container">
+            <div class="steps-container">
+                <div class="get-ready">
+                    <img src="./assets/images/taxi-icon.png">
+                    <p>{{locales.get_ready}}</p>
+                </div>
+                <div class="mt-4 ml-3 gap-x-2 flex ">
+                    <div>
+                        <template v-if="!isNaN(selectedMissionRealIndex)">
+                            <img class="w-[1.3rem] h-auto" src="./assets/images/progress-icon-active.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto"
+                                src="./assets/images/progress-bullet-active.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto"
+                                src="./assets/images/progress-bullet-active.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto"
+                                src="./assets/images/progress-bullet-active.png">
+                        </template>
+                        <template v-else>
+                            <img class="w-[1.3rem] h-auto" src="./assets/images/progress-icon.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto" src="./assets/images/progress-bullet.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto" src="./assets/images/progress-bullet.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto" src="./assets/images/progress-bullet.png">
+                        </template>
+                    </div>
+                    <p class="progress-text mt-1 ml-1">{{locales.select_a_area}}</p>
+                </div>
+                <div class="mt-4 ml-3 gap-x-2 flex ">
+                    <div>
+                        <template v-if="!isNaN(selectedVehicleRealIndex)">
+                            <img class="w-[1.3rem] h-auto" src="./assets/images/progress-icon-active.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto"
+                                src="./assets/images/progress-bullet-active.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto"
+                                src="./assets/images/progress-bullet-active.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto"
+                                src="./assets/images/progress-bullet-active.png">
+                        </template>
+                        <template v-else>
+                            <img class="w-[1.3rem] h-auto" src="./assets/images/progress-icon.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto" src="./assets/images/progress-bullet.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto" src="./assets/images/progress-bullet.png">
+                            <img class="mt-2 ml-[.4rem] w-[0.45rem] h-auto" src="./assets/images/progress-bullet.png">
+                        </template>
+                    </div>
+                    <p class="progress-text mt-1 ml-1">{{locales.select_your_veh}}</p>
+                </div>
+    
+                <div class="mt-4 ml-3 gap-x-2 flex ">
+                    <div>
+                        <img class="w-[1.3rem] h-auto" src="./assets/images/progress-icon.png">
+                    </div>
+                    <p class="progress-text mt-1 ml-1">{{locales.start_cabbing}}</p>
+
+                </div>
+            </div>
+            <div class="start-button" v-if="!missionActive && !vipMissionActive" @click="start">{{locales.start_cabbin}}</div>
+            <div class="start-button" v-else @click="stop">{{locales.stop_cabbin}}</div>
+      
+        </div>
+    </div>
+</div>

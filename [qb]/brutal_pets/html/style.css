@@ -1,0 +1,1074 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
+
+body{
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;
+    display: block;
+    user-select: none;
+    overflow: hidden;
+}
+
+:root{
+    --maincolor: rgba(104, 70, 205, 0.689);
+    --darkercolor: rgba(50, 30, 69, 0.532);
+}
+
+button{
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:hover{
+    filter: brightness(75%);
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+money{
+    color: rgb(3, 134, 3);
+    white-space: nowrap;
+}
+
+premium{
+    color: rgb(110, 14, 193);
+    white-space: nowrap;
+}
+
+.buy_section{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    height:100%;
+    width:100%;
+    box-shadow: inset 0px 0px 100vw 8vh #000000;
+    transition: box-shadow 0.7s ease-in-out;
+    transition: opacity 0.4s ease-in-out;
+    display: none;
+    opacity: 0;
+}
+
+.buy_section h1{
+    position: absolute;
+    top: -39px;
+    left: 58.5px;
+    font-size: 78px;
+    color: white;
+    text-shadow: 0px 0px 10px var(--maincolor);
+}
+
+.buy_section h4{
+    position: absolute;
+    bottom: 19.5px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    font-size: 39px;
+    color: rgba(255, 255, 255, 0.68);
+    text-shadow: 0px 0px 10px var(--maincolor);
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+}
+
+.buy_section .btn_container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 432px;
+    width: 780px;
+    transition: all 0.4s ease-in-out;
+}
+
+.buy_section .btn_container .menu_btn{
+    height:78px;
+    width: 331.5px;
+    background-image: linear-gradient(225deg, var(--maincolor), transparent);
+    background-color: transparent;
+    border: solid 2px var(--maincolor);
+    color: white;
+    font-size: 39px;
+    font-weight: 600;
+    border-radius: 7.8px;
+    transition: all 0.4s;
+}
+
+.buy_section .btn_container .menu_btn:hover{
+    box-shadow: 0px 0px 20px 5px var(--maincolor);
+}
+
+.buy_section .btn_container .menu_btn:active{
+    transition: all 0.1s ;
+    box-shadow: none;
+}
+
+.buy_section .btn_container #pets{
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.buy_section .btn_container #shop{
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+}
+
+.buy_section .pet_container{
+    position: absolute;
+    top: 55%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    height: 756px;
+    width: 448px;
+    background-color: var(--darkercolor);
+    border-width: 3px;
+    border-style: solid;
+    border-image:  linear-gradient(to top left,  rgba(255, 255, 255, 0.786)0%, rgba(0, 0, 0, 1) 30%,rgba(0, 0, 0, 1) 70%,rgba(255, 255, 255, 0.786)100%) 1;
+    border-radius: 0.1vw;
+    transition: all 0.4s ease-in-out;
+    display: none;
+    opacity: 0;
+    animation: borderanim 5s linear infinite alternate;
+}
+
+@keyframes borderanim{
+    from {border-image:  linear-gradient(to top left,  rgba(255, 255, 255, 0.786)0%, rgba(0, 0, 0, 1) 30%,rgba(0, 0, 0, 1) 70%,rgba(255, 255, 255, 0.786)100%) 1;}
+    to {border-image:  linear-gradient(to top left,  rgba(0, 0, 0, 1)10%, rgba(255, 255, 255, 0.786) 40%,rgba(255, 255, 255, 0.786) 60%,rgba(0, 0, 0, 1)90%) 1;}
+}
+
+.back{
+    position: relative;
+    float: right;
+    margin-top: 4%;
+    margin-right: 5%;
+    margin-left: 5%;
+    height: 48px;
+    width: 48px;
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    font-size: 35px;
+    border-radius: 0.4vw;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.name-container .back{
+    float: left;
+}
+
+.buy_section .pet_container .back{
+    float: left;
+}
+
+.buy_section .bg .back{
+    float: left;
+}
+
+.buy_section .pet_container h2{
+    position: absolute;
+    margin-top: 0.5vw;
+    transform: translate(-50%, 0%);
+    left: 50%;
+    color: white;
+    font-size: 39px;
+}
+
+.buy_section .pet_container .pet_elements_container{
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    height: 83%;
+    width: 90%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.buy_section .pet_container .pet_elements_container .pet_element{
+    height: 13%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.437);
+    border: none;
+    border-radius: 0.4vw;
+    margin-top: 0.4vw;
+    transition: all 0.2s ease-in-out;
+}
+
+.buy_section .pet_container .pet_elements_container .pet_element:hover{
+    filter: none;
+}
+
+.buy_section .pet_container .pet_elements_container .pet_element a{
+    font-size: 17.5px;
+    color: rgb(198, 198, 198);
+}
+
+table{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+table th{
+    font-size: 25.3px;
+    color: white;
+}
+
+table .image{
+    width: 25%;
+}
+
+table .price{
+    font-size: 21.5px;
+    width: 30%;
+}
+
+.buy_section .bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.514);
+    transition: 0.4s;
+    display: none;
+    opacity: 0;
+    z-index: 5;
+}
+
+.buy_section .money_type{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 20%;
+    width: 30%;
+    background-color: rgba(0, 0, 0, 0.532);
+    border-width: 3px;
+    border-style: solid;
+    border-image:  linear-gradient(to top left,  rgba(255, 255, 255, 0.786)0%, rgba(0, 0, 0, 0) 30%,rgba(0, 0, 0, 0) 70%,rgba(255, 255, 255, 0.786)100%) 1;
+    transition: all 0.4s ease-in-out;
+    animation: borderanim 5s linear infinite alternate;
+}
+
+.buy_section .money_type h2{
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    height: 50%;
+    width: 80%;
+    transform: translate(-50%, 0%);
+    font-size: 40px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.buy_section .money_type .m_t{
+    height: 78px;
+    width: 136.5px;
+    margin: 29.3px;
+    border-radius: 7.8px;
+    border: none;
+    font-size: 58.5px;
+    font-weight: 700;
+    transition: all 0.3s;
+    color: white;
+}
+
+.buy_section .money_type #money{
+    position: absolute;
+    bottom: 19px;
+    left: 12%;
+    background-image: linear-gradient(225deg, rgba(3, 134, 3, 0.800), transparent);
+    background-color: transparent;
+    border: solid 2px rgba(3, 134, 3, 0.800);
+}
+
+.buy_section .money_type #premium{
+    position: absolute;
+    bottom: 19px;
+    right: 12%;
+    background-image: linear-gradient(225deg, rgba(110, 14, 193, 0.800), transparent);
+    background-color: transparent;
+    border: solid 2px rgba(110, 14, 193, 0.800);
+    padding-top: 5px;
+}
+
+.buy_section .buy_container{
+    position: absolute;
+    top: 75%;
+    right: 10%;
+    height: 162px;
+    width: auto;
+    min-width: 25%;
+    background: rgb(0,0,0);
+    background: radial-gradient( rgba(0, 0, 0, 0.813) 0%, rgba(34,193,195,0) 70%);
+    opacity: 0;
+    display: none;
+    transition: all 0.4s ease-in-out;
+}
+
+.buy_section .buy_btn{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 78px;
+    width: 175px;
+    background-image: linear-gradient(225deg, var(--maincolor), transparent);
+    background-color: transparent;
+    border: solid 2px var(--maincolor);
+    border-radius: 7px;
+    color: white;
+    font-size: 39px;
+    font-weight: 700;
+}
+
+.buy_section .changetype{
+    position: absolute;
+    top: 90%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+    height: 48.7px;
+    width: 101.4px;
+    background-image: linear-gradient(225deg, rgba(184, 184, 184, 0.535), transparent);
+    background-color: transparent;
+    border: solid 2px rgba(184, 184, 184, 0.647);
+    border-radius: 7px;
+    color: white;
+    font-size: 19.5px;
+    font-weight: 500;
+}
+
+.buy_section .changecollar{
+    position: absolute;
+    top: 90%;
+    left: 65%;
+    transform: translate(-50%, -50%);
+    height: 48.7px;
+    width: 101.4px;
+    background-image: linear-gradient(225deg, rgba(184, 184, 184, 0.535), transparent);
+    background-color: transparent;
+    border: solid 2px rgba(184, 184, 184, 0.647);
+    border-radius: 7px;
+    color: white;
+    font-size: 17.55px;
+    font-weight: 500;
+}
+
+.buy_section .buy_container .inf_container{
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    height: 80%;
+    width: auto;
+    min-width: 25%;
+    text-align: center;
+    color: white;
+    font-size: 23.4px;
+    font-weight: 500;
+}
+
+.buy_section .buy_container .inf_container h3{
+   top: -19.5px;
+   margin: 0;
+}
+
+.buy_section .buy_container .inf_container a{
+    color: rgb(231, 231, 231);
+}
+
+.buy_section .buy_container .inf_container hr{
+    width: 100%;
+    background-color: white;
+}
+
+.buy_section .buy_container #first{
+    left: 0%;
+}
+
+.buy_section .buy_container #second{
+    right: 0%;
+}
+
+.buy_section .shop_container{
+    position: absolute;
+    top: 55%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    height: 70%;
+    width: 23%;
+    background-color: var(--darkercolor);
+    border-width: 3px;
+    border-style: solid;
+    border-image:  linear-gradient(to top left,  rgba(255, 255, 255, 0.786)0%, rgba(0, 0, 0, 1) 30%,rgba(0, 0, 0, 1) 70%,rgba(255, 255, 255, 0.786)100%) 1;
+    border-radius: 0.1vw;
+    transition: all 0.4s ease-in-out;
+    display: none;
+    opacity: 0;
+    animation: borderanim 5s linear infinite alternate;
+}
+
+.buy_section .shop_container .buy_btn{
+    top: 90%;
+}
+
+.buy_section .shop_container h3{
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-weight: 600;
+    font-size: 39px;
+    color: rgb(241, 241, 241);
+}
+
+.buy_section .shop_container .shop_elements_container{
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    height: 55%;
+    width: 90%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.buy_section .shop_container h2{
+    position: absolute;
+    margin-top: 10px;
+    transform: translate(-50%, 0%);
+    left: 50%;
+    color: white;
+    font-size: 39px;
+}
+
+.buy_section .shop_container .shop_elements_container .shop_element{
+    position: relative;
+    height: 22%;
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    background-color: rgba(0, 0, 0, 0.313);
+    border-radius: 7px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.buy_section .shop_container .shop_elements_container .shop_element .item{
+    position: absolute;
+    top: 50%;
+    left: 3.9px;
+    transform: translate( 0%,-50%);
+    width: auto;
+    height: 80%;
+    border-radius: 7px;
+}
+
+.buy_section .shop_container .shop_elements_container .shop_element h11{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-weight: 400;
+    font-size: 27.3px;
+    color: rgb(241, 241, 241);
+}
+
+.buy_section .shop_container .shop_elements_container .shop_element .arrow1{
+    color: white;
+    transition: 0.6s;
+    font-size: 35.1px;
+}
+
+.buy_section .shop_container .shop_elements_container .shop_element .arrow1:active{
+    transition: 0.05s;
+    scale: 0.9;
+}
+
+.buy_section .shop_container .shop_elements_container .shop_element .left{
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%,-50%);
+}
+
+.buy_section .shop_container .shop_elements_container .shop_element .right{
+    position: absolute;
+    top: 50%;
+    left: 95%;
+    transform: translate(-50%,-50%);
+}
+
+.buy_section .shop_container .shop_elements_container .shop_element .num{
+    position: absolute;
+    top: 50%;
+    left: 85%;
+    transform: translate(-50%,-50%);
+    font-weight: 400;
+    font-size: 31.2px;
+    color: rgb(241, 241, 241);
+}
+
+.pet_elements_container table .image .elm_img{
+    height: 74.1px;
+    width: auto;
+}
+
+.pet-section{
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    height: 60px;
+    width: 200px;
+    background-color: rgba(21, 21, 21, 0.59);
+    border-radius: 10px;
+    opacity: 0;
+    display: none;
+    transition: all 1s ease-in-out;
+}
+
+.pet-section .big-mode{
+    opacity: 0;
+    display: none;
+    transition: all 0.4s ease-in-out;
+}
+
+.pet-section .small-mode{
+    transition: all 0.4s ease-in-out;
+}
+
+.pet-section h1{
+    color: white;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.rename_btn{
+    height: 20px;
+    width: 20px;
+    border: none;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.649);
+    font-size: 20px;
+}
+
+.pet-section .pet_img_big{
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 134.4px;
+}
+
+.pet-section .pet_img_small{
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(0%, -50%);
+    height: 90%;
+}
+
+.pet-section .big-mode .pet_datas{
+    position: absolute;
+    top: 17%;
+    height: 15%;
+    width: 100%;
+    display: flex;     
+    flex-direction: row;           
+    flex-wrap: nowrap;            
+    justify-content: space-between;
+}
+
+.pet-section .big-mode .pet_datas .data{
+    height: 100%;
+    font-size: 50px;
+    margin-top: -10px;
+    text-align: center;
+}
+
+.pet-section .big-mode .pet_datas .data h2{
+    background: white;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 20px;
+    margin-top: -10px;
+}
+
+.pet-section .pet_datas #drink{
+    background: linear-gradient(rgba(255, 255, 255, 0.447) 100%, #147cea 0%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-left: 40px;
+}
+
+.pet-section .pet_datas #healt{
+    background: linear-gradient(rgba(255, 255, 255, 0.447) 100%, #ea1414 0%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.pet-section .pet_datas #food{
+    background: linear-gradient(rgba(255, 255, 255, 0.447) 100%, #eae314 0%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: 40px;
+}
+
+.pet-section .small-mode .pet_datas{
+    position: absolute;
+    top: 0%;
+    left: 25%;
+    height: 100%;
+    width: 65%;
+    display: flex;     
+    flex-direction: row;           
+    flex-wrap: nowrap;            
+    justify-content: space-between;
+}
+
+.pet-section .small-mode .pet_datas .data{
+    font-size: 40px;
+    transition: all 0.3s ease-in-out;
+}
+
+.pet-section .small-mode .pet_datas #drink{
+    margin-left: 0vw;
+}
+
+.pet-section .small-mode .pet_datas #food{
+    margin-right: 0vw;
+}
+
+.delete_btn{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 25px;
+    width: 70px;
+    border-radius: 6px;
+    border: none;
+    background-color: rgba(255, 0, 0, 0.686);
+    color: white;
+    font-size: 12.5px;
+    box-shadow:inset 0px 0px 0px rgba(0, 0, 0, 0.566), 5px 5px 10px rgba(0, 0, 0, 0.566);
+}
+
+.pet-section .backmini{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    height: 38.4px;
+    width: 38.4px;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.728);
+    font-size: 25px;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.pet-section .btn_container_1line{
+    position: absolute;
+    top: 33%;
+    width: 100%;
+    height: 20%;
+    display: flex;     
+    flex-direction: row;           
+    flex-wrap: nowrap;            
+    justify-content: space-between;
+}
+
+.pet-section .btn_container_2line{
+    position: absolute;
+    top: 55%;
+    width: 100%;
+    height: 20%;
+    display: flex;     
+    flex-direction: row;           
+    flex-wrap: nowrap;            
+    justify-content: space-between;
+}
+
+.pet-section .btn_container_3line{
+    position: absolute;
+    top: 75%;
+    width: 100%;
+    height: 13%;
+    display: flex;     
+    flex-direction: row;           
+    flex-wrap: nowrap;            
+    justify-content: space-between;
+}
+
+.pet-section .btn_c{
+    height: 82.5px;
+    width: 82.5px;
+    border-radius: 100%;
+    margin: 15px;
+    border: none;
+    font-size: 44px;
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow:inset 0px 0px 0px rgba(0, 0, 0, 0.566), 5px 5px 10px rgba(0, 0, 0, 0.566);
+}
+
+.pet-section .btn_c i{
+    text-align: center;
+    margin-top: 19px;
+}
+
+.pet-section .btn_c h2{
+    text-align: center;
+    font-size: 15px;
+    font-weight: 300;
+    margin-top: 15px;
+}
+
+.pet-section .btn_l{
+    height: 48px;
+    width: 153.6px;
+    border-radius: 3vh;
+    margin: 15px;
+    border: none;
+    font-size: 39px;
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow:inset 0px 0px 0px rgba(0, 0, 0, 0.566), 5px 5px 10px rgba(0, 0, 0, 0.566);
+}
+
+.pet-section .btn_l i{
+    text-align: left;
+    width: 100%;
+    margin-top: 16px;
+    opacity: 0.6;
+    transform: rotate(20deg);
+}
+
+.pet-section .btn_l h2{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: -48px;
+    white-space: nowrap;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.598);
+    color: white;
+}
+
+.pet-section #follow{
+    background-image: linear-gradient(45deg, rgba(17,218,168,1) 0%, rgba(3,198,255,1) 100%);
+}
+
+.pet-section #control{
+    background-image: linear-gradient(45deg, rgba(17,180,218,1) 0%, rgba(3,88,255,1) 100%);
+}
+
+.pet-section #emotes{
+    background-image: linear-gradient(45deg, rgba(17,105,218,1) 0%, rgba(134,104,182,1) 100%);
+}
+
+.pet-section #ball{
+    background-image: linear-gradient(45deg, rgba(89,0,255,1) 0%, rgba(201,0,255,1) 100%);
+}
+
+.pet-section #attack{
+    background-image: linear-gradient(45deg, rgba(201,0,255,1) 0%, rgba(255,0,104,1) 100%);
+}
+
+.pet-section #sit{
+    background-image: linear-gradient(45deg, rgba(239,0,255,1) 0%, rgba(255,0,0,1) 100%);
+}
+
+.pet-section #wake{
+    background-image: linear-gradient(45deg, rgba(0,255,226,1) 0%, rgb(134, 156, 255) 100%);
+}
+
+.pet-section #sleep{
+    background-image: linear-gradient(45deg, rgba(0,56,255,1) 0%, rgb(255, 171, 229) 100%);
+}
+
+.pet-section .logo_container{
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translate(-50%,0%);
+    width: 90%;
+    height: 10%;
+    opacity: 0.7;
+}
+
+.pet-section .logo_container .logo{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 100%;
+}
+
+.pet-section .logo_container D{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%,-50%);
+    font-size: 32.6px;
+    background-image: linear-gradient(60deg, #11d4e2, #ef3aff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-transform: uppercase;
+}
+
+.pet-section .logo_container N{
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    transform: translate(-50%,-50%);
+    font-size: 32.6px;
+    font-weight: 400;
+    background-image: linear-gradient(60deg, #db11e2, #d4592d);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-transform: uppercase;
+}
+
+.pet_switch_con{
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translate(-50%,0%);
+    width: 52%;
+    height: 8%;
+    z-index: 10;
+}
+
+.pet_switch_con .arrows{
+    height: 100%;
+    width: 38.4px;
+    font-size: 38.4px;
+    color: white;
+    background-color: transparent;
+    border: none;
+}
+
+.pet_switch_con .arrows:hover{
+    box-shadow: none;
+    scale: 1.05;
+}
+
+.pet_switch_con .arrows:active{
+    transition: 0.05s;
+    scale:0.95;
+}
+
+.pet_switch_con #right{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.name-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 40%;
+    width: 20%;
+    background-color: rgba(0, 0, 0, 0.514);
+    border-width: 3px;
+    border-style: solid;
+    border-image:  linear-gradient(to top left,  rgba(255, 255, 255, 0.786)0%, rgba(0, 0, 0, 1) 30%,rgba(0, 0, 0, 1) 70%,rgba(255, 255, 255, 0.786)100%) 1;
+    transition: all 0.4s ease-in-out;
+    animation: borderanim 5s linear infinite alternate;
+    opacity: 0;
+    display: none;
+}
+
+.name-container h1{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    max-width: 90%;
+    width: fit-content;
+    color: rgba(255, 255, 255, 0.911);
+    font-size: 1.5vw;
+}
+
+.name-container #name{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 5vh;
+    width: 12vw;
+    border: none;
+    outline: none;
+    border-radius:4px;
+    background-color: var(--maincolor);
+    font-size: 1.7vh;
+    color: rgb(255, 255, 255);
+    padding-left: 1vw;
+}
+
+input::placeholder {
+    font-weight: 400;
+    opacity: .7;
+    color: rgb(255, 255, 255);
+    font-size: 1.7vh;
+}
+
+.name-container .submit_btn{
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 3.5vw;
+    width: 8vw;
+    background-image: linear-gradient(225deg, var(--maincolor), transparent);
+    background-color: transparent;
+    border: solid 2px var(--maincolor);
+    border-radius: 0.4vw;
+    color: white;
+    font-size: 1.5vw;
+    font-weight: 700;
+}
+
+.sure{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.514);
+    transition: 0.4s;
+    display: none;
+    opacity: 0;
+    z-index: 5;
+}
+
+.sure .container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 250px;
+    width: 550px;
+    background-color: rgba(28, 28, 28, 0.834);
+    border-width: 3px;
+    border-style: solid;
+    border-image:  linear-gradient(to top left,  rgba(255, 255, 255, 0.786)0%, rgba(0, 0, 0, 1) 30%,rgba(0, 0, 0, 1) 70%,rgba(255, 255, 255, 0.786)100%) 1;
+    animation: borderanim 5s linear infinite alternate;
+}
+
+.sure .container h1{
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    height: 50%;
+    width: 80%;
+    transform: translate(-50%, 0%);
+    font-size: 40px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.sure .container #yes{
+    position: absolute;
+    bottom: 20px;
+    right: 12%;
+    background-image: linear-gradient(225deg, var(--maincolor), transparent);
+    background-color: transparent;
+    border: solid 2px var(--maincolor);
+    padding-top: 5px;
+}
+
+.sure .container #cancel{
+    position: absolute;
+    bottom: 20px;
+    left: 12%;
+    background-image: linear-gradient(225deg, rgba(66, 66, 66, 0.689), transparent);
+    background-color: transparent;
+    border: solid 2px rgba(66, 66, 66, 0.647);
+}
+
+.sure .container i{
+    font-size: 40px;
+    padding-bottom: 10px;
+}
+
+.tasks{
+    height: 70px;
+    width: 160px;
+    margin: 10px;
+    border-radius: 0.25vw;
+    border: none;
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+    transition: all 0.3s;
+}
+
+.tasks_container{
+    position:absolute;
+    bottom: 10%;
+    left: 25%;
+    height: auto;
+    width: auto;
+    display: flex;     
+    flex-direction: row;           
+    flex-wrap: nowrap;            
+    justify-content: space-between;
+}
+
+.tasks_container .inprogress{
+    height: 134.4px;
+    min-width: 172.8px;
+    margin-top: 10px;
+    background-image: radial-gradient(circle, rgba(72, 52, 133, 0.774) 0%, transparent 80%);
+    color: rgb(215, 215, 215);
+    font-size: 23px;
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+}
+
+.tasks_container .inprogress .pet_img{
+    margin-left: 50%;
+    transform: translate(-50%, 0%);
+    height: 57.6px;
+}
+
+.tasks_container .inprogress .name{
+    text-align: center;
+    margin-top: -13.44px;
+    margin-bottom: -10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.tasks_container .inprogress hr{
+    width: 80%;
+    color: rgb(255, 255, 255);
+}
+
+.tasks_container .inprogress .state{
+    margin-top: -13.44px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}

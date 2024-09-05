@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <link rel="stylesheet" href="./css/style.css">
+        <title> Vehicle GPS</title>
+    </head>
+    <body>
+        <div class="qb-BodyMain">
+            <div class="qb-btn-close-right">
+                <i id="InsertTableGPS" class="fas fa-plus-circle"></i> <i id="CloseGpsMenu" class="fas fa-times-circle"></i>
+            </div>
+            <div class="qb-GPS-List">
+            </div>
+
+            <div class="AddIPMenu">
+                <input class="qb-input-style InputIP" type="text" min="0" placeholder="IP">
+                <input class="qb-input-style InputPass" type="number" min="0" placeholder="Password">
+                <div class="AddIPMenuVTNS">
+                    <div class="AddIPBTN-Main GreenBTN">SUBMIT</div>
+                    <div class="AddIPBTN-Main RedBTN">CANCEL</div>
+                </div>
+            </div>
+        </div>
+        <script src="./js/script.js"></script>
+    </body>
+</html>

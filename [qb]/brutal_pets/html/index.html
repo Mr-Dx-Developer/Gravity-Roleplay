@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link>
+    <title>Brutal pet System</title>
+</head>
+
+
+<body>
+
+    <section class="buy_section">
+        <h1>Pet Shop</h1>
+        <h4>Press ⬅️ or ➡️ to rotate the pet</h4>
+        <div class="btn_container">
+            <button class="menu_btn" id="pets" onclick="UseButton(id)">SHOW PETS</button>
+            <button class="menu_btn" id="shop" onclick="UseButton(id)">SHOP</button>
+        </div>
+
+        <div class="pet_container">
+            <button class="back" id="backmainmenu" onclick="UseButton(id)"><i class="fa-solid fa-chevron-left"></i></button>
+            <h2>Pets</h2>
+        
+            <div class="pet_elements_container">
+            </div>
+        </div>
+
+        <div class="buy_container">
+            <div class="inf_container" id="first">
+                <h3><a>Price</a></h3>
+                <hr>
+                <h3 id="price"></h3>
+            </div>
+            <div class="inf_container" id="second">
+                <h3><a>Name</a></h3>
+                <hr>
+                <h3 id="petname"></h3>
+            </div>
+            <button class="buy_btn" onclick="BuyPet()">BUY</button>
+            <button class="changetype" onclick="ChangePetType()">SKIN</button>
+            <button class="changecollar" onclick="ChangePetCollar()">COLLAR</button>
+        </div>
+
+        <div class="shop_container">
+            <button class="back" id="backmainmenu" onclick="UseButton(id)"><i class="fa-solid fa-chevron-right"></i></button>
+            <h2>Shop</h2>
+            <div class="shop_elements_container">
+            </div>
+            <h3>0 <money>$</money></h3>
+            <button class="buy_btn" onclick="BuyInShop()">BUY</button>
+        </div>
+
+        <div class="bg"> 
+            <div class="money_type">
+                <button class="back" id="backpetshop" onclick="UseButton(id)"><i class="fa-solid fa-chevron-left"></i></button>
+                <h2>How do you want to pay?</h2>
+                <button class="m_t" id="money" onclick="BuyPetwithmoney(id)">$</button>
+                <button class="m_t" id="premium" onclick="BuyPetwithmoney(id)">P</button>
+            </div>
+        </div>
+       
+    </section>
+
+    <section class="pet-section" id="pet-section">
+        <div class="big-mode">
+            <div class="pet_switch_con" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()">
+                <button class="arrows" id="left" onclick="switch_pet(id)"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="arrows" id="right" onclick="switch_pet(id)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <button class="delete_btn" onclick="delete_pet()" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()">Let Free</button>
+            <img class="pet_img_big" src="">
+            <button class="backmini" id="backmini" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-chevron-up"></i></button>
+            <h1>Pet Name<button class="rename_btn" onclick="rename_pet()" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-pen"></i></button></h1>
+            <div class="pet_datas">
+                <div class="data" id="drink"><i class="fa-solid fa-droplet"></i>
+                <h2>0%</h2></div>
+                <div class="data" id="healt"><i class="fa-solid fa-heart"></i>
+                <h2>0%</h2></div>
+                <div class="data" id="food"><i class="fa-solid fa-utensils"></i>
+                <h2>0%</h2></div>
+            </div>
+            <div class="btn_container_1line">
+                <button class="btn_c" id="follow" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-paw"></i><h2>Follow</h2></button>
+                <button class="btn_c" id="control" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-gamepad"></i><h2>Control</h2></button>
+                <button class="btn_c" id="emotes" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-dog"></i><h2>Emotes</h2></button>
+            </div>
+            <div class="btn_container_2line">
+                <button class="btn_c" id="ball" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-baseball"></i><h2>Ball</h2></button>
+                <button class="btn_c" id="attack" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-users-rays"></i><h2>Attack</h2></button>
+                <button class="btn_c" id="sit" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-cat"></i><h2>Sit</h2></button>
+            </div>
+            <div class="btn_container_3line">
+                <button class="btn_l" id="wake" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-bone"></i><h2>Wake up</h2></button>
+                <button class="btn_l" id="sleep" onclick="UseButton(id)" onmousedown="Mousedown()" onmouseup="Mouseup()" onmouseout="Mouseup()"><i class="fa-solid fa-house"></i><h2>Send home</h2></button>
+            </div>
+            <div class="logo_container">
+                <img class="logo" src="assets/logo.png">
+                <D>Server</D>
+                <N>Name</N>
+            </div>
+        </div>
+
+        <div class="small-mode">
+            <img class="pet_img_small" src="pets/test-pet.png">
+            <div class="pet_datas">
+                <div class="data" id="drink"><i class="fa-solid fa-droplet"></i></div>
+                <div class="data" id="healt"><i class="fa-solid fa-heart"></i></div>
+                <div class="data" id="food"><i class="fa-solid fa-utensils"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="sure">
+        <div class="container">
+            <h1>Are you sure to let free this pet?</h1>
+            <button class="tasks" id="yes" onclick="returnsure(id)">YES</button>
+            <button class="tasks" id="cancel" onclick="returnsure(id)">CANCEL</button>
+        </div>
+    </div>
+
+    <div class="name-container">
+        <button class="back" id="backname" onclick="UseButton(id)"><i class="fa-solid fa-chevron-left"></i></button>
+        <h1>Give a name to your pet</h1>
+        <input type="text" id="name" name="name" placeholder="Your pet's name...">
+        <button class="submit_btn" onclick="NameFunction()" >SUBMIT</button>
+    </div>
+
+    <div class="tasks_container" id="tasks_container">
+    </div>
+
+</body>
+
+<script src="script.js"></script>
+</html>

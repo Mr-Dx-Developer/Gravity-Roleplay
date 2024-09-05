@@ -1,0 +1,438 @@
+<div
+    v-if="$store.state.societydashboardpage.currentPage == 'sendrequest'"
+    class="w-full h-full flex items-center justify-center"
+    style="overflow: hidden"
+>
+    <div
+        class="w-[70%] h-[50%] flex items-center justify-center content-start flex-wrap"
+        style="background: rgba(100, 100, 100, 0.09); border-radius: 0.5vw"
+    >
+        <div class="w-full h-[33%] flex items-center justify-center">
+            <h2 style="font-family: gilroysemibold; color: white; font-size: 1.2vw">
+                {{this.$store.state.dashboardpage.locales['SOCIETYACCOUNTAPPLICATION']}}
+            </h2>
+        </div>
+        <div class="w-[80%] h-[33%] flex items-center justify-center">
+            <h2 style="font-family: gilroysemibold; color: white; font-size: 0.8vw; text-align: center">
+                {{this.$store.state.dashboardpage.locales['ACCORDINGTOYOURCITIZENID']}}
+                <span style="color: #7ec1ff; font-family: gilroybold">{{this.$store.state.dashboardpage.myJob}}.</span>
+                {{this.$store.state.dashboardpage.locales['TOJOINTHESOCIETYACCOUNT']}}
+            </h2>
+        </div>
+
+        <div class="w-[80%] h-[33%] flex items-center justify-center">
+            <div
+                class="w-[40%] h-[40%] rounded-[0.5vw] flex items-center justify-center cursor-pointer"
+                @click="sendRequestJob"
+                style="background: rgba(126, 193, 255, 0.18); border: 2px solid #7ec1ff"
+            >
+                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw">{{this.$store.state.dashboardpage.locales['SENDREQUEST']}}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div
+    v-else-if="$store.state.societydashboardpage.currentPage == 'awaiting'"
+    class="w-full h-full flex items-center justify-center"
+    style="overflow: hidden"
+>
+    <div
+        class="w-[70%] h-[50%] flex items-center justify-center content-start flex-wrap"
+        style="background: rgba(100, 100, 100, 0.09); border-radius: 0.5vw"
+    >
+        <div class="w-full h-[33%] flex items-center justify-center">
+            <h2 style="font-family: gilroysemibold; color: white; font-size: 1.2vw">
+                {{this.$store.state.dashboardpage.locales['SOCIETYACCOUNTAPPLICATION']}}
+            </h2>
+        </div>
+        <div class="w-[80%] h-[33%] flex items-center justify-center">
+            <h2 style="font-family: gilroysemibold; color: white; font-size: 0.8vw; text-align: center">
+                {{this.$store.state.dashboardpage.locales['ACCORDINGTOYOURCITIZENID']}}
+                <span style="color: #7ec1ff; font-family: gilroybold">{{this.$store.state.dashboardpage.myJob}}.</span>
+                {{this.$store.state.dashboardpage.locales['TOJOINTHESOCIETYACCOUNT']}}
+            </h2>
+        </div>
+
+        <div class="w-[80%] h-[33%] flex items-center justify-center">
+            <div
+                class="w-[40%] h-[40%] rounded-[0.5vw] flex items-center justify-center cursor-pointer"
+                style="background: rgba(126, 193, 255, 0.18); border: 2px solid #7ec1ff"
+            >
+                <h2 style="font-family: gilroysemibold; color: white; font-size: 1vw">
+                    {{this.$store.state.dashboardpage.locales['AWAITINGAPPLICATION']}}
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div v-else-if="$store.state.societydashboardpage.currentPage == 'main'" class="w-full h-full" style="overflow: hidden">
+    <div class="w-full h-[55%] flex items-center justify-center">
+        <div class="w-[95%] h-[80%]">
+            <canvas
+                id="myChartSocietyJob"
+                height="15"
+                width="40"
+                style="width: 100% !important; height: 100% !important; display: block; box-sizing: border-box"
+            ></canvas>
+        </div>
+    </div>
+    <div class="w-full h-[7.5%] flex items-center justify-center relative">
+        <div class="w-full h-[3%] absolute" style="background: linear-gradient(90deg, #121f30 0%, #0b111c 100%)"></div>
+        <div class="w-[67%] h-full flex justify-center relative">
+            <div class="w-[0.1vw] h-[650%] left-[53%] mt-[1.5vw] absolute" style="background: linear-gradient(90deg, #0f1927 0%, #0b121b 100%)"></div>
+            <div
+                class="w-[22%] ml-[2vw] h-full flex items-center justify-center cursor-pointer"
+                :style="{
+                    'background-image': `url(${this.categoryButtonData['withdraw'] ? './images/societybuttonactive.png' : './images/societybutton.png'})`,
+                    'filter': `${this.categoryButtonData['withdraw'] ? 'drop-shadow(0px 0px 0.4vw #C6B4FB)' : ''}`
+                }"
+                style="background-size: 100% 100%; transition: 1s all; cursor: pointer"
+                @click="changeInteractionCategory('withdraw')"
+            >
+                <h2 style="font-family: gilroybold; color: white; font-size: 0.9vw">{{this.$store.state.dashboardpage.locales['WITHDRAW']}}</h2>
+            </div>
+            <div
+                class="w-[22%] ml-[2vw] h-full flex items-center justify-center cursor-pointer"
+                :style="{
+                'background-image': `url(${this.categoryButtonData['deposit'] ? './images/societybuttonactive.png' : './images/societybutton.png'})`,
+                'filter': `${this.categoryButtonData['deposit'] ? 'drop-shadow(0px 0px 0.4vw #C6B4FB)' : ''}`
+            }"
+                style="background-size: 100% 100%; transition: 1s all; cursor: pointer"
+                @click="changeInteractionCategory('deposit')"
+            >
+                <h2 style="font-family: gilroybold; color: white; font-size: 0.9vw">{{this.$store.state.dashboardpage.locales['DEPOSIT']}}</h2>
+            </div>
+        </div>
+    </div>
+    <transition-group name="interactioncategory">
+        <div v-if="interactionCategory == 'main'" class="w-full h-[37.5%] flex">
+            <div class="w-[50%] h-full flex flex-wrap content-start">
+                <div class="w-full h-[15%] flex items-center justify-center">
+                    <div class="w-[90%] h-full flex items-end">
+                        <h2
+                            style="cursor: pointer; font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw"
+                            @click="changeSocietyMembersPage('societymembers')"
+                            :style="societymemberspage == 'societymembers' ? {'color' : 'white'} : ''"
+                        >
+                            {{this.$store.state.dashboardpage.locales['SOCIETYMEMBERS']}}
+                            ({{this.$store.state.societydashboardpage.societyAccount.jobdata.playersdata.length}})
+                        </h2>
+                        <h2
+                            v-if="this.$store.state.societydashboardpage.societyAccount.boss"
+                            style="cursor: pointer; font-family: gilroybold; margin-left: 1vw; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw"
+                            @click="changeSocietyMembersPage('societyrequest')"
+                            :style="societymemberspage == 'societyrequest' ? {'color' : 'white'} : ''"
+                        >
+                            {{this.$store.state.dashboardpage.locales['REQUESTS']}}
+                            ({{this.$store.state.societydashboardpage.societyAccount.jobdata.requestdata.length}})
+                        </h2>
+                    </div>
+                </div>
+                <div
+                    v-if="this.$store.state.societydashboardpage.societyAccount.jobdata && societymemberspage == 'societymembers'"
+                    class="w-full h-[75%] flex items-start justify-center flex-wrap content-start no-scrollbar"
+                    style="overflow: auto"
+                >
+                    <div
+                        class="w-[90%] h-[33%] flex items-center"
+                        v-for="data in this.$store.state.societydashboardpage.societyAccount.jobdata.playersdata"
+                    >
+                        <div class="w-[20%] h-full flex items-center justify-center">
+                            <div
+                                class="w-[65%] h-[80%] rounded-full flex items-center justify-center"
+                                style="border: 2px solid rgba(198, 180, 251, 1)"
+                            >
+                                <img class="rounded-full h-[80%]" :src="data.avatar" alt="" />
+                            </div>
+                        </div>
+                        <div class="w-[50%] h-full flex items-center justify-start">
+                            <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw">{{data.name}}</h2>
+                        </div>
+                        <div
+                            v-if="this.$store.state.societydashboardpage.societyAccount.boss && data.identifier !== this.$store.state.dashboardpage.identifier  "
+                            class="w-[30%] h-full flex items-center justify-center cursor-pointer"
+                        >
+                            <div
+                                @click="kickSocietyPlayer(data)"
+                                class="w-[70%] h-[50%] flex items-center justify-center rounded-[0.5vw]"
+                                style="border: 2px solid rgba(0, 0, 0, 0.47); background: #9588bc"
+                            >
+                                <h2 style="font-family: gilroybold; color: white; font-size: 0.9vw">
+                                    {{this.$store.state.dashboardpage.locales['KICK']}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    v-if="this.$store.state.societydashboardpage.societyAccount.jobdata && societymemberspage == 'societyrequest'"
+                    class="w-full h-[75%] flex items-start justify-center flex-wrap content-start no-scrollbar"
+                    style="overflow: auto"
+                >
+                    <div
+                        class="w-[90%] h-[33%] flex items-center"
+                        v-for="data in this.$store.state.societydashboardpage.societyAccount.jobdata.requestdata"
+                    >
+                        <div class="w-[20%] h-full flex items-center justify-center">
+                            <div
+                                class="w-[65%] h-[80%] rounded-full flex items-center justify-center"
+                                style="border: 2px solid rgba(198, 180, 251, 1)"
+                            >
+                                <img class="rounded-full h-[80%]" :src="data.avatar" alt="" />
+                            </div>
+                        </div>
+                        <div class="w-[40%] h-full flex items-center justify-start">
+                            <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw">{{data.name}}</h2>
+                        </div>
+                        <div
+                            class="w-[20%] h-full mr-[0.5vw] flex items-center justify-center cursor-pointer"
+                            @click="societyAcceptRequestData('accept',data)"
+                        >
+                            <div
+                                class="w-full h-[50%] flex items-center justify-center rounded-[0.5vw]"
+                                style="border: 2px solid rgba(0, 0, 0, 0.47); background: #9588bc"
+                            >
+                                <h2 style="font-family: gilroybold; color: white; font-size: 0.9vw">
+                                    {{this.$store.state.dashboardpage.locales['ACCEPT']}}
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="w-[20%] h-full flex items-center justify-center cursor-pointer" @click="societyAcceptRequestData('decline',data)">
+                            <div
+                                class="w-full h-[50%] flex items-center justify-center rounded-[0.5vw]"
+                                style="border: 2px solid rgba(0, 0, 0, 0.47); background: #9588bc"
+                            >
+                                <h2 style="font-family: gilroybold; color: white; font-size: 0.9vw">
+                                    {{this.$store.state.dashboardpage.locales['DECLINE']}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[50%] h-full flex flex-wrap content-start">
+                <div class="w-full h-[15%] flex items-center justify-center">
+                    <div class="w-[90%] h-full flex items-end justify-end">
+                        <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw">
+                            {{this.$store.state.dashboardpage.locales['MEMBERSCONTRIBUTION']}}
+                        </h2>
+                    </div>
+                </div>
+                <div
+                    v-if="this.$store.state.societydashboardpage.societyAccount.jobdata"
+                    class="w-full h-[75%] flex items-start justify-center flex-wrap content-start no-scrollbar"
+                    style="overflow: auto"
+                >
+                    <div
+                        class="w-[90%] h-[33%] flex items-center"
+                        v-for="data in this.$store.state.societydashboardpage.societyAccount.jobdata.contributiondata"
+                    >
+                        <div class="w-[20%] h-full flex items-center justify-center">
+                            <div
+                                class="w-[65%] h-[80%] rounded-full flex items-center justify-center"
+                                style="border: 2px solid rgba(198, 180, 251, 1)"
+                            >
+                                <img class="rounded-full h-[80%]" :src="data.avatar" alt="" />
+                            </div>
+                        </div>
+                        <div class="w-[50%] h-full flex items-center justify-start">
+                            <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw">{{data.name}}</h2>
+                        </div>
+                        <div class="w-[30%] h-full flex items-center justify-center">
+                            <div class="w-[70%] h-[50%] flex items-center justify-center rounded-[0.5vw]" style="background-color: transparent">
+                                <h2 style="font-family: gilroybold; color: #75f5a6; font-size: 0.9vw">+{{data.amount}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="interactionCategory == 'withdraw'" class="w-full h-[37.5%] flex justify-between">
+            <div class="w-[48.5%] h-full flex flex-wrap content-start">
+                <div class="w-full h-[15%] flex items-center justify-center">
+                    <div class="w-[90%] h-full flex items-end">
+                        <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw">
+                            {{this.$store.state.dashboardpage.locales['FASTWITHDRAWAL']}}
+                        </h2>
+                    </div>
+                </div>
+                <div class="w-full h-[75%] flex items-start justify-end flex-wrap content-start">
+                    <div class="w-[95%] h-full flex items-start justify-between flex-wrap content-start">
+                        <div
+                            v-for="data in withdrawOption"
+                            @click="withdrawOptionClick(data.amount)"
+                            class="w-[45%] rounded-[2vw] mt-[2vh] h-[20%] flex items-center justify-center cursor-pointer changebackgroundsociety"
+                        >
+                            <h2 style="font-family: gilroybold; color: white; font-size: 0.9vw">
+                                {{$store.state.dashboardpage.currencyUnit}} {{data.amount.toLocaleString()}}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[48.6%] h-full flex flex-wrap content-start">
+                <div class="w-full h-[15%] flex items-center justify-center">
+                    <div class="w-[90%] h-full flex items-end justify-end">
+                        <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw">
+                            {{this.$store.state.dashboardpage.locales['NUMPAD']}}
+                        </h2>
+                    </div>
+                </div>
+                <div class="w-full h-[75%] flex items-start justify-start flex-wrap content-start">
+                    <div class="w-[50%] h-full">
+                        <div class="w-full h-[25%] flex flex-col items-center justify-center">
+                            <h2 style="font-family: gilroybold; line-height: normal; color: rgba(255, 255, 255, 0.25); font-size: 0.7vw">
+                                {{this.$store.state.dashboardpage.locales['WITHDRAWNMONEYFROM']}}
+                            </h2>
+                            <h2 style="font-family: gilroybold; line-height: normal; color: #c9b6ff; font-size: 0.7vw">
+                                {{this.$store.state.dashboardpage.locales['SOCIETY']}} {{this.$store.state.dashboardpage.myJob}} Vault
+                            </h2>
+                        </div>
+                        <div class="w-full h-[40%] flex flex-col items-center justify-center">
+                            <div class="w-[50%] h-[45%] rounded-[0.5vw]" style="background-color: #d9d9d90d">
+                                <input
+                                    placeholder="Amount"
+                                    type="text"
+                                    @input="checkInput"
+                                    v-model="sendAmount"
+                                    class="w-full h-full text-center"
+                                    style="
+                                        background-color: transparent;
+                                        font-size: 0.7vw;
+                                        font-family: gilroybold;
+                                        outline: none;
+                                        color: white;
+                                        border: none;
+                                    "
+                                />
+                            </div>
+                        </div>
+                        <div class="w-full h-[25%] flex flex-col items-center justify-center">
+                            <div
+                                class="w-[50%] h-[75%] rounded-[0.5vw] flex items-center justify-center cursor-pointer"
+                                @click="withdrawMoney"
+                                style="background: rgba(201, 182, 255, 0.75)"
+                            >
+                                <h2 style="font-family: gilroybold; line-height: normal; color: white; font-size: 0.7vw">
+                                    {{this.$store.state.dashboardpage.locales['WITHDRAW']}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-[50%] h-full flex justify-end">
+                        <div
+                            class="w-[80%] mr-[1vw] h-full flex items-start content-start flex-wrap justify-between no-scrollbar"
+                            style="overflow: auto"
+                        >
+                            <div
+                                v-for="(data,index) in 12"
+                                :style="index + 1 == 10 || index + 1 == 12 ? {'visibility' : 'hidden'} : {'visibility' : 'none'} "
+                                class="w-[23%] h-[20%] mt-[0.5vw] ml-[0.5vw] rounded-full flex items-center justify-center cursor-pointer"
+                                @click="numpadClick(index + 1)"
+                                style="background-color: rgba(217, 217, 217, 0.05)"
+                            >
+                                <h2 style="font-family: gilroybold; line-height: normal; color: white; font-size: 0.9vw; font-weight: 400">
+                                    {{index +1 == 11 ? 0 : index + 1 }}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="interactionCategory == 'deposit'" class="w-full h-[37.5%] flex justify-between">
+            <div class="w-[48.5%] h-full flex flex-wrap content-start">
+                <div class="w-full h-[15%] flex items-center justify-center">
+                    <div class="w-[90%] h-full flex items-end">
+                        <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw">
+                            {{this.$store.state.dashboardpage.locales['FASTDEPOSIT']}}
+                        </h2>
+                    </div>
+                </div>
+                <div class="w-full h-[75%] flex items-start justify-end flex-wrap content-start">
+                    <div class="w-[95%] h-full flex items-start justify-between flex-wrap content-start">
+                        <div
+                            v-for="data in depositOption"
+                            @click="depositOptionClick(data.amount)"
+                            class="w-[45%] rounded-[2vw] mt-[2vh] h-[20%] flex items-center justify-center cursor-pointer changebackground"
+                        >
+                            <h2 style="font-family: gilroybold; color: white; font-size: 0.9vw">
+                                {{$store.state.dashboardpage.currencyUnit}} {{data.amount.toLocaleString()}}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[48.6%] h-full flex flex-wrap content-start">
+                <div class="w-full h-[15%] flex items-center justify-center">
+                    <div class="w-[90%] h-full flex items-end justify-end">
+                        <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.25); font-size: 0.9vw">
+                            {{this.$store.state.dashboardpage.locales['NUMPAD']}}
+                        </h2>
+                    </div>
+                </div>
+                <div class="w-full h-[75%] flex items-start justify-start flex-wrap content-start">
+                    <div class="w-[50%] h-full">
+                        <div class="w-full h-[25%] flex flex-col items-center justify-center">
+                            <h2 style="font-family: gilroybold; line-height: normal; color: rgba(255, 255, 255, 0.25); font-size: 0.7vw">
+                                {{this.$store.state.dashboardpage.locales['DEPOSITINGMONEYFROM']}}
+                            </h2>
+                            <h2 style="font-family: gilroybold; line-height: normal; color: #c9b6ff; font-size: 0.7vw">
+                                {{this.$store.state.dashboardpage.locales['SOCIETY']}} {{this.$store.state.dashboardpage.myJob}} Vault
+                            </h2>
+                        </div>
+                        <div class="w-full h-[40%] flex flex-col items-center justify-center">
+                            <div class="w-[50%] h-[45%] rounded-[0.5vw]" style="background-color: #d9d9d90d">
+                                <input
+                                    placeholder="Amount"
+                                    type="text"
+                                    @input="checkInput"
+                                    v-model="sendAmount"
+                                    class="w-full h-full text-center"
+                                    style="
+                                        background-color: transparent;
+                                        font-size: 0.7vw;
+                                        font-family: gilroybold;
+                                        outline: none;
+                                        color: white;
+                                        border: none;
+                                    "
+                                />
+                            </div>
+                        </div>
+                        <div class="w-full h-[25%] flex flex-col items-center justify-center">
+                            <div
+                                class="w-[50%] h-[75%] rounded-[0.5vw] flex items-center justify-center cursor-pointer"
+                                @click="depositMoney"
+                                style="background: rgba(201, 182, 255, 0.75)"
+                            >
+                                <h2 style="font-family: gilroybold; line-height: normal; color: white; font-size: 0.7vw">
+                                    {{this.$store.state.dashboardpage.locales['DEPOSIT']}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-[50%] h-full flex justify-end">
+                        <div
+                            class="w-[80%] mr-[1vw] h-full flex items-start content-start flex-wrap justify-between no-scrollbar"
+                            style="overflow: auto"
+                        >
+                            <div
+                                v-for="(data,index) in 12"
+                                :style="index + 1 == 10 || index + 1 == 12 ? {'visibility' : 'hidden'} : {'visibility' : 'none'} "
+                                class="w-[23%] h-[20%] mt-[0.5vw] ml-[0.5vw] rounded-full flex items-center justify-center cursor-pointer"
+                                @click="numpadClick(index + 1)"
+                                style="background-color: rgba(217, 217, 217, 0.05)"
+                            >
+                                <h2 style="font-family: gilroybold; line-height: normal; color: white; font-size: 0.9vw; font-weight: 400">
+                                    {{index +1 == 11 ? 0 : index + 1 }}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition-group>
+</div>

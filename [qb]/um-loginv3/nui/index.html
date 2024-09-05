@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UM - Loading Screen V3</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.prod.min.js"></script>
+</head>
+<body>
+    <video v-if="page.video.videoBackground.defaultVID.enabled" autoplay loop id="video">
+        <source :src="page.video.videoBackground.defaultVID.link" type="video/mp4">
+    </video>
+
+    <div v-if="page.video.videoBackground.youtubeVID.enabled" :data-vbg="'https://www.youtube.com/watch?v=' + page.video.videoBackground.youtubeVID.link"></div>
+    <div class="content image-background" :style="{ 'background-image': 'url(' + page.video.imageBackground.defaultIMG + ')' }">
+        <div class="main">
+            <div class="leftside">
+            <div class="logo">
+                    <img :src="mainSettings.logo" :style="{ 'width': mainSettings.logowidth + 'vh' }" style='height: 8.7vh'>
+                </div>
+                    <!-- <div class="card store" @click="StoreAboutUS" v-if="!page.aboutus.enabled">
+                        <h5>{{page.storecard.title}}</h5>
+                        <p>{{page.storecard.description}}</p>
+                        <button class="storebutton">{{page.storecard.button}}</button>
+                        <img :src="page.storecard.character_image" class="hvr-backward">
+                    </div>
+                    <div class="card store" @click="StoreAboutUS" v-else>
+                        <h5>{{page.aboutus.title}}</h5>
+                        <p>{{page.aboutus.description}}</p>
+                        <button class="storebutton">{{page.aboutus.button}}</button>
+                        <img :src="page.aboutus.character_image" class="hvr-backward">
+                    </div>
+                <div class="card changelog" @click="pagestore = !pagestore" v-if="!changeLog.url.enabled">
+                    <h5>{{changeLog.title}}</h5>
+                    <p>{{changeLog.description}} </p>
+                    <button class="storebutton">{{changeLog.button}}</button>
+                    <img :src="changeLog.character_image" class="hvr-backward">
+                </div>
+                <div class="card changelog" @click="ChangeLogURL" v-else>
+                    <h5>{{changeLog.title}}</h5>
+                    <p>{{changeLog.description}} </p>
+                    <button class="storebutton">{{changeLog.button}}</button>
+                    <img :src="changeLog.character_image" class="hvr-backward">
+                </div> -->
+            </div>
+            <div class="pageside animate__animated animate__fadeInLeft" v-if="pagestore">
+                <div class="page">
+                    <div class="pagetitle">
+                        <h5>{{changeLog.title}}</h5>
+                        <small>{{changeLog.description}}</small>
+                    </div>
+                    <div class="cont" v-if="Array.isArray(changeLog.page.content)">
+                        <p v-for="item in changeLog.page.content">{{item}}</p>
+                    </div>
+                    <div class="cont" v-else>
+                        <p>{{changeLog.page.content}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="pageside animate__animated animate__fadeInLeft" v-if="pageaboutus">
+                <div class="page">
+                    <div class="pagetitle">
+                        <h5>{{page.aboutus.title}}</h5>
+                        <small>{{page.aboutus.description}}</small>
+                    </div>
+                    <div class="cont" v-else>
+                        <p>{{page.aboutus.content}}</p>
+                    </div>
+                </div>
+            </div>
+        <div class="rightside">
+            <div class="userbox">
+                <div v-if="page.social.discord" class="discord">
+                    <div class="iconnlist" :style="{ 'background-image': 'url(' + discord.banner + ')' }">
+                        <img v-for="item in discord.badges" :src="'assets/images/dcicon/' + item + '.webp'">
+                    </div>
+                    <div class="top" style="margin: 1.5vh;">
+                        <img :src="discord.avatar">
+                        <span>{{discord.name}}</span>
+                    </div>
+                </div>
+                <div v-if="page.social.steam" class="discord">
+                    <div class="top">
+                        <img :src="steam.avatar">
+                        <span>{{steam.name}}</span>
+                    </div>
+                </div>
+                <div v-if="page.playermonth.enabled" class="right-card">
+                    <h5>{{page.playermonth.title}}</h5>
+                    <img :src="page.playermonth.playerimg">
+                    <p>{{page.playermonth.playername}}</p>
+                </div>
+                <div class="right-card" style="height: 14vh;">
+                    <h5>{{page.settings.title}}</h5>
+                    <div class="iconlistsettings">
+                        <i v-show="!muteicon" class="fa-solid fa-volume-high" @click="musicMute"></i>
+                        <i v-show="muteicon" class="fa-solid fa-volume-xmark"  @click="musicMute"></i>
+                        <i class="fa-solid fa-palette" @click="randomRGButton"></i>
+                        <i class="fa-regular fa-snowflake" @click="mainSettings.extra.autoSnow = !mainSettings.extra.autoSnow"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- <div class="bottom">
+                <div class="pressbutton animate__animated animate__pulse animate__slow animate__infinite"><h1>{{page.settings.loading}}</h1></div>
+                <div class="randomtext"><p>{{randomtext}}</p></div>
+            </div>
+            <div class="loadingbar"></div> -->
+        </div>
+    </div>
+    <canvas v-show="mainSettings.extra.autoSnow" class="snow" id="snow"></canvas>
+    <audio v-if="page.video.musicBackground.enabled" id="music" :src="page.video.musicBackground.link" autoplay="true" hidden="true" loop="true"></audio>
+
+    <script type="text/javascript" src="https://unpkg.com/youtube-background/jquery.youtube-background.js"></script>
+    <script type="module" src="assets/js/app.js"></script>
+    <script src="assets/js/snow.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NUI React Boilerplate</title>
+    <script type="module" crossorigin src="./assets/index-DRCeo5WY.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BQ5RaMjU.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js" type="text/javascript"></script>
+      <script>
+        var audio = null;
+        window.addEventListener('message', function(event) {
+            if (event.data.soundOperation == "play") {
+            
+              if (audio != null) {
+                audio.pause();
+              }
+
+              audio = new Howl({src: ["./sounds/" + event.data.soundName + ".ogg"]});
+              audio.volume(event.data.soundVolume);
+              audio.play();
+            }
+        });
+    </script>
+  </body>
+</html>

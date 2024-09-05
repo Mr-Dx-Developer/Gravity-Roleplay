@@ -1,0 +1,636 @@
+body{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar {
+	width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 50px;
+	background: #0091e6;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.hotel-ui{
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px 0px 8vh 4.5vh rgb(0 0 0 / 45%);
+    background: rgb(0 0 0 / 20%);
+}
+
+.hotelblock{
+    display: none;
+    position: relative;
+    top: 6vh;
+    width: 141vh;
+    height: 87vh;
+    margin: 0 auto;
+    background: #080808f7;
+    border-radius: 4vh;
+}
+
+
+.managmentblock{
+    position: relative;
+    top: 6vh;
+    width: 45vh;
+    height: 87vh;
+    margin: 0 auto;
+    background: #080808f7;
+    border-radius: 4vh;
+    overflow: hidden;
+}
+.f9hotelheader{
+    position: absolute;
+    top: 0;
+    height: 9vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.f9hotelheader > h3{
+    color: white;
+    text-transform: uppercase;
+    padding-left: 2vh;
+}
+
+.f9hotelheader > h4{
+    color: white;
+    text-transform: uppercase;
+    padding-left: 2vh;
+}
+
+.f9hotelheader > h5{
+    color: white;
+    text-transform: uppercase;
+    padding-left: 2vh;
+}
+
+.f9hotelheaderclose{
+    position: relative;
+    width: 5vh;
+    height: 2vh;
+    color: white;
+}
+
+.f9hotelheaderclose > i{
+    cursor: pointer;
+}
+
+
+.f9managmentui{
+    position: absolute;
+    top: 8vh;
+    width: 100%;
+    height: 93%;
+    background: #2828288c;
+}
+
+.f9leftmenuside{
+    position: relative;
+    width: 48vh;
+    height: 100%;
+    transition: all 0.15s ease-out;
+    /* background: linear-gradient(90deg, rgba(0, 0, 0, 0.82) 6vh, transparent 60vh); */
+}
+
+.f9loobyleft{
+    position: relative;
+    width: 41vh;
+    height: 95%;
+    top: 0%;
+}
+
+.f9floorsbuttons{
+    position: absolute;
+    width: 8vh;
+    height: 22vh;
+    right: 32vh;
+    top: 31.5vh;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    align-items: flex-end;
+}
+
+.f9onefloorbutton{
+    position: relative;
+    height: 2.3vh;
+    width: 88%;
+    right: 0;
+    color: white;
+    font-size: 1vh;
+    text-align: center;
+    background-color: rgba(50, 50, 50, 0.77);
+    line-height: 2.3vh;
+    border-radius: 2vh 0vh 0vh 2vh;
+    margin-bottom: 4px;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+}
+
+.f9onefloorbutton:hover{
+    width: 100%;
+}
+
+.f9buttonselected{
+    background-color: #0091e6 !important;
+    width: 100% !important;
+    color: black;
+}
+
+.f9floorsmenu{
+    position: absolute;
+    width: 8vh;
+    background: rgba(50, 50, 50, 0.77);
+    height: 22vh;
+    left: 1vh;
+    top: 8.2vh;
+}
+
+.f9floorstext{
+    color: #dfdfdfd1;
+    font-weight: bold;
+    font-size: 5vh;
+    transform: rotate(-90deg);
+    position: relative;
+    top: 12.5vh;
+    left: -0.3vh;
+}
+
+.f9floorslist{
+    position: absolute;
+    width: 49vh;
+    height: 7.5vh;
+    background: #0e0e0e3b;
+    left: 9.4vh;
+    top: 0.7vh;
+    display: flex;
+    flex-direction: row;
+    border-radius: 0vh;
+    overflow: hidden;
+}
+
+.f9onefloor{
+    position: relative;
+    width: 7vh;
+    height: 100%;
+    margin-right: 3px;
+    border-left: 0px solid rgba(38, 38, 38, 0.58);
+    transition: all 0.25s ease-out;
+    cursor: pointer;
+}
+
+.f9onefloor:hover{
+    background-color: #000000be;
+    transition: background-color 250ms linear;
+}
+
+.f9oneflooricon{
+    position: relative;
+    width: 100%;
+    height: 4.6vh;
+    margin-bottom: 0px;
+    background: rgb(32 32 32);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.f9oneflooricon > i{
+    font-size: 2.5vh;
+    color: #a3a3a3;
+}
+
+
+.f9onefloortext{
+    position: relative;
+    color: white;
+    text-align: center;
+    background: rgb(32 32 32);
+    width: 100%;
+    font-size: 1vh;
+    line-height: 1.5;
+    padding-bottom: 2px;
+}
+
+.f9onefloortext > p{
+    margin: 0;
+}
+
+.f9apartmentslist{
+    position: absolute;
+    left: 9vh;
+    top: 8.2vh;
+    width: 130vh;
+    height: 88%;
+    background: #323232c4;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 1.5vh;
+    z-index: 1111111;
+    overflow: auto;
+    border-radius: 0vh 0vh 3vh 0vh;
+    transition: all 0.25s ease-out;
+}
+
+.f9oneapartment{
+    position: relative;
+    width: 27vh;
+    height: 17vh;
+    background: linear-gradient(45deg, #060606ab 30vh, #ffffff, #ffffff 1vh);
+    margin-right: 1vh;
+    margin-bottom: 0.75vh;
+    transition: all 0.25s ease-out;
+}
+
+.f9oneapartment:hover .f9oneapartmentimg{
+    box-shadow: rgb(0 0 0 / 75%) 0px 0px 4vh 6.5vh inset;
+    transition: all 0.25s ease-out;
+}
+
+.f9oneapartmentimg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url(https://cdn.discordapp.com/attachments/729643536877748315/1057076906173939782/image.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.4;
+    box-shadow: rgb(0 0 0 / 70%) 0px 0px 4vh 5.5vh inset;
+    transition: all 0.25s ease-out;
+}
+
+
+.f9oneapartmentname{
+    position: absolute;
+    font-size: 2vh;
+    color: white;
+    font-weight: bold;
+    left: 0;
+    width: 100%;
+    top: 0.25vh;
+    text-align: center;
+}
+
+.f9oneapartmentinfos{
+    position: absolute;
+    left: 1vh;
+    bottom: 3.77vh;
+    color: #ffffff8a;
+    font-size: 1.3vh;
+    line-height: 1.677vh;
+}
+
+.f9oneapartmentbuttons{
+    position: absolute;
+    width: 100%;
+    height: 2.55vh;
+    bottom: 7px;
+    padding: 0.4vh 1vh 0.4vh 1vh;
+    display: flex;
+}
+
+.f9oneapartmentbuttonrent{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    background: #0091e6;
+    text-align: center;
+    line-height: 1.5vh;
+    color: #07201a;
+    cursor: pointer;
+}
+
+.f9oneapartmentbuttonprice{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    background: #646464;
+    text-align: center;
+    line-height: 1.6vh;
+    color: #d5d5d5;
+    font-size: 1.2vh;
+}
+
+
+.f9hotelrentconfirm{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.f9hotelnotifylists{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    top: 1vh;
+}
+
+.f9hotelrentconfirmdiv{
+    display: block;
+    position: relative;
+    width: 50vh;
+    height: 30vh;
+    background: #181818;
+}
+
+.f9hotelnotifycdiv{
+    display: block;
+    position: relative;
+    width: 32vh;
+    height: 6vh;
+    background: #1e1e1e;
+    z-index: 9999999;
+    border-radius: 0vh 0vh 1vh 1vh;
+    margin-bottom: 9px;
+    animation: showfaisalisland2 0.4s ease-in-out;
+}
+
+.f9hotelrentconfirmtitle{
+    position: absolute;
+    width: 100%;
+    height: 2vh;
+    text-align: left;
+    color: black;
+    line-height: 1.9vh;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-left: 4px;
+    font-size: 1vh;
+    background: #0091e6;
+}
+
+.f9hotelrentconfirmclose{
+    position: absolute;
+    right: 6px;
+    top: 2px;
+    cursor: pointer;
+}
+
+
+.f9hotelnotifytitle{
+    position: absolute;
+    width: 100%;
+    height: 2vh;
+    text-align: center;
+    color: black;
+    line-height: 1.9vh;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1vh;
+    background: #0091e6;
+}
+
+.f9hotelnotifyclose{
+    position: absolute;
+    right: 6px;
+    top: 2px;
+    cursor: pointer;
+}
+
+.f9hotelrentconfirminfo{
+    position: relative;
+    width: 100%;
+    height: 93%;
+    top: 7%;
+    color: white;
+}
+
+.f9hotenotifyminfo{
+    position: relative;
+    width: 100%;
+    height: 63%;
+    top: 33%;
+    color: white;
+}
+
+.f9hotenotifyminfo > div{
+    text-align: center;
+    padding: 3px;
+    padding-top: 10px;
+    font-size: 1.15vh;
+}
+
+
+.f9hotelrentconfirmbottom{
+    position: absolute;
+    bottom: 0;
+    height: 6vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.f9hotelbutton{
+    position: relative;
+    width: 12vh;
+    height: 3vh;
+    background: #0091e6;
+    font-weight: bold;
+    text-align: center;
+    line-height: 3vh;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    color: black;
+}
+
+
+.f9tableforinfo {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .f9tableforinfo td, .f9tableforinfo th {
+    border: 1px solid #202020;
+    padding: 8px;
+    color: white;
+  }
+
+
+    
+  
+  .f9tableforinfo tr:nth-child(even){background-color: #181818;}
+  
+  .f9tableforinfo tr:hover {background-color: #202020;}
+  
+  .f9tableforinfo th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0091e6;
+    color: rgb(15, 15, 15);
+  }
+
+  
+input,
+output {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1em;
+  font-family: Arial, sans-serif;
+}
+
+output {
+  background: #0091e6;
+  padding: 5px 16px;
+  border-radius: 3px;
+  color: black;
+}
+
+input[type="number"] {
+  width: 40px;
+  padding: 4px 5px;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+}
+
+/* input[type="range"]:focus,
+input[type="number"]:focus {
+  box-shadow: 0 0 3px 1px #4b81dd;
+  outline: none;
+} */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  margin-right: 15px;
+  width: 200px;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+  background-image: linear-gradient(#0091e6, #0091e6);
+  background-size: 70% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Input Thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #0091e6;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #0091e6;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+input[type="range"]::-ms-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #0091e6;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: #0089d8;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background: #0089d8;
+}
+
+@keyframes showfaisalisland2 {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes showfaisalislandOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.button{
+    position: relative;
+    width: 100%;
+    font-size: 2vh;
+    color: white;
+    text-align: left;
+    background: #161616;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 5px;
+    margin-bottom: 1vh;
+    min-height: 5vh;
+}
+
+.icon{
+    padding-right: 1vh;
+    padding-left: 1vh;
+}
+
+.column{
+    line-height: 1.6vh;
+}
+
+.text{
+    font-size: 1vh;
+    line-height: 12px;
+}
+
+.title{
+    position: relative;
+    width: 100%;
+    height: 8vh;
+    color: white;
+    text-align: center;
+    font-size: 2.2vh;
+    padding: 6px;
+    background: rgba(8, 8, 8, 0.97);
+    margin-bottom: 1vh;
+    min-height: 5vh;
+}
+
+.header{
+    line-height: 2vh;
+    padding-bottom: 0.55vh;
+}

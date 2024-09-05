@@ -1,0 +1,31 @@
+<div class="vip">
+    <div v-for="mission in vipMissions" :style="missionBG(mission.image)" class="vip-mission">
+        <h1 class="vip-mission-header">{{mission.name}}</h1>    
+        <div class="vip-mission-requirements">
+            <div class="flex items-center gap-x-3">
+                <img src="./assets/images/civilian.png">
+                <p>{{mission.passangersLabel}}</p>
+            </div>
+            <div class="flex items-center gap-x-3">
+                <img src="./assets/images/dollar-icon.png">
+                <p>${{mission.payment}} {{locales.earnings}}</p>
+            </div>
+            <div class="flex items-center gap-x-3">
+                <img src="./assets/images/cooldown-icon.png">
+                <p v-if="!getRemainHours(playerData?.vipCooldown?.[mission?.id?.toString()])">{{locales.mission_cooldown}}</p>
+                <p class="yellow-text" v-else>{{getRemainHours(playerData?.vipCooldown[mission?.id?.toString()])}}{{locales.hr_cooldown}}</p>
+
+            </div>
+            <div class="flex items-center gap-x-3">
+                <img src="./assets/images/req-lv-icon.png">
+                <p v-if="playerData.level >= mission.level">Lv.{{mission.level}} {{locales.required}}</p>
+                <p v-else class="yellow-text">Lv.{{mission.level}} {{locales.required}}</p>
+
+            </div>
+        </div>
+        <div v-if="getRemainHours(playerData?.vipCooldown?.[mission?.id?.toString()])" class="mission-button locked">{{locales.mission_on_cooldown}}</div>
+        <div v-else-if="playerData.level >= mission.level" @click="startVip(mission)" class="mission-button">{{locales.start_mission}}</div>
+        <div v-else class="mission-button locked">{{locales.mission_locked}}</div>
+    
+    </div>
+</div>

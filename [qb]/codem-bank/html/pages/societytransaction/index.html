@@ -1,0 +1,125 @@
+<div class="w-full h-full flex flex-wrap content-start" style="overflow: hidden">
+    <div class="w-full h-[8%] mt-[1.8vh] flex items-center justify-center">
+        <div class="w-[95%] h-[80%] flex">
+            <div class="w-[93%] h-full flex" style="background-color: rgba(217, 217, 217, 0.05); border-radius: 2vw">
+                <div class="w-[7%] h-full flex items-center justify-center">
+                    <img class="h-[30%]" src="./images/search.png" alt="" />
+                </div>
+                <div class="w-[90%] h-full">
+                    <input
+                        placeholder="Search Any Transaction"
+                        type="text"
+                        v-model="searchbarValue"
+                        class="w-[85%] h-full"
+                        style="background-color: transparent; font-size: 0.8vw; font-family: gilroybold; outline: none; color: white; border: none"
+                    />
+                </div>
+            </div>
+            <div class="w-[7%] flex items-center justify-center h-full">
+                <img class="h-[80%] cursor-pointer" @click="openShortBox" src="./images/sorticon.png" alt="" />
+            </div>
+        </div>
+    </div>
+    <div class="w-full h-[92%] flex items-start justify-center flex-wrap content-start relative">
+        <div
+            v-if="shortBox"
+            class="w-[23%] h-[12%] absolute right-[2vw] z-[4]"
+            style="border-radius: 6px; background: rgba(255, 255, 255, 0.36); backdrop-filter: blur(4px)"
+        >
+            <div
+                class="w-full h-[50%] flex justify-around items-center cursor-pointer"
+                @click="sortData('latest')"
+                style="border-bottom: 1px solid rgba(255, 255, 255, 0.25)"
+            >
+                <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.66); font-size: 0.7vw">
+                    {{this.$store.state.dashboardpage.locales['TRANSACTIONDATELATEST']}}
+                </h2>
+                <img class="h-[50%]" src="./images/sorticon1.png" alt="" />
+            </div>
+            <div class="w-full h-[50%] flex justify-around items-center cursor-pointer" @click="sortData('earliest')">
+                <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.66); font-size: 0.7vw">
+                    {{this.$store.state.dashboardpage.locales['TRANSACTIONDATEEARLIEST']}}
+                </h2>
+                <img class="h-[50%]" src="./images/sorticon2.png" alt="" />
+            </div>
+        </div>
+        <div class="w-[95%] h-[17%] flex">
+            <div class="w-[10%] h-full">
+                <div class="w-full h-[75%] flex items-center flex-wrap justify-center">
+                    <div class="w-[75%] h-[80%] rounded-full flex items-center justify-center" @click="filternotificationdataAll">
+                        <img class="h-[90%] rounded-full object-contain" src="./images/transactionallicon.png" alt="" />
+                    </div>
+                </div>
+                <div class="w-full h-[25%] flex items-center justify-center">
+                    <h2 style="font-family: gilroybold; color: #c9b6ff; font-size: 0.5vw">{{this.$store.state.dashboardpage.locales['ALL']}}</h2>
+                </div>
+            </div>
+            <div id="mainswipertranscation" class="w-[90%] h-full flex" style="overflow: hidden">
+                <div class="w-full h-full swiper-wrapper">
+                    <div
+                        v-for="data in  this.$store.state.societydashboardpage.societyAccount.jobdata.playersdata"
+                        class="swiper-slide w-[10%] h-full flex flex-wrap cursor-pointer"
+                        @click="filternotificationdata(data.identifier)"
+                    >
+                        <div class="w-full h-[75%] flex items-center flex-wrap justify-center">
+                            <div
+                                class="w-[75%] h-[80%] rounded-full flex items-center justify-center"
+                                style="background-image: url(./images/bgradius.png); background-size: 100% 100%"
+                            >
+                                <img class="h-[85%] rounded-full object-contain" :src="data.avatar" alt="" />
+                            </div>
+                        </div>
+                        <div class="w-full h-[25%] flex items-center justify-center">
+                            <h2 style="font-family: gilroybold; color: #c9b6ff; font-size: 0.5vw">{{data.name}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            v-if="this.$store.state.societydashboardpage.societyAccount.jobdata"
+            class="w-[95%] h-[80%] flex flex-wrap content-start no-scrollbar relative"
+            style="overflow: auto"
+        >
+            <div
+                v-for="(data,index) in reversedTransaction"
+                @mouseover="mouseOver(index)"
+                @mouseleave="mouseLeave"
+                class="w-[22%] h-[30%] flex items-center justify-center ml-[1vw] mt-[1.5vh] rounded-[0.5vw]"
+                :style="hoveredIndex == index ?  {'opacity' : '1'} : {'opacity' : '0.3'}"
+                style="background-color: rgba(217, 217, 217, 0.06)"
+            >
+                <div class="w-[90%] h-full">
+                    <div class="w-full h-[20%] flex items-center justify-between" style="border-bottom: 1px solid rgba(255, 255, 255, 0.11)">
+                        <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.66); font-size: 0.7vw">{{data.label}}</h2>
+                        <img class="h-[30%]" :src="'./images/'+data.icon+'.png'" alt="" />
+                    </div>
+                    <div class="w-full h-[5%]"></div>
+                    <div class="w-full h-[15%] flex items-center justify-between">
+                        <h2 style="font-family: gilroybold; color: #67c3ff; font-size: 0.5vw">{{this.$store.state.dashboardpage.locales['FROM']}}</h2>
+                        <h2 style="font-family: gilroybold; color: white; font-size: 0.5vw">{{data.from}}</h2>
+                    </div>
+                    <div class="w-full h-[15%] flex items-center justify-between">
+                        <h2 style="font-family: gilroybold; color: #67c3ff; font-size: 0.5vw">{{this.$store.state.dashboardpage.locales['TO']}}</h2>
+                        <h2 style="font-family: gilroybold; color: white; font-size: 0.5vw">{{data.to}}</h2>
+                    </div>
+                    <div class="w-full h-[15%] flex items-center justify-between">
+                        <h2 style="font-family: gilroybold; color: #67c3ff; font-size: 0.5vw">{{this.$store.state.dashboardpage.locales['DATE']}}</h2>
+                        <h2 style="font-family: gilroybold; color: white; font-size: 0.5vw">{{data.date}}</h2>
+                    </div>
+                    <div class="w-full h-[15%] flex items-center justify-between">
+                        <h2 style="font-family: gilroybold; color: #67c3ff; font-size: 0.5vw">
+                            {{this.$store.state.dashboardpage.locales['AMOUNT']}}
+                        </h2>
+                        <h2
+                            style="font-family: gilroybold; font-size: 0.5vw"
+                            :style="data.type == '+' ? {'color' : '#A0FF7E'} : {'color' : '#FF7E7E'}"
+                        >
+                            {{data.type}} {{$store.state.dashboardpage.currencyUnit}} {{data.amount}}
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

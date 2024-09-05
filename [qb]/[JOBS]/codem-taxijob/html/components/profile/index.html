@@ -1,0 +1,50 @@
+<div class="profile">
+    <div class="profile-container">
+        <div class="completed-jobs-container">
+            <h1>{{locales.completed_jobs}}</h1>
+            <h2>{{playerData.completedJobs}}</h2>
+            <p>{{locales.total_jobs_completed}}</p>
+        </div>
+        <div class="total-earnings-container">
+            <h1>{{locales.total_earnings}}</h1>
+            <h2>{{playerData.totalEarnings}} $</h2>
+            <p>{{locales.total_money_earned}}</p>
+        </div>
+        <div class="current-level-container">
+            <h1>{{locales.current_level}}</h1>
+            <h2>{{playerData.level}}</h2>
+            <p>Your current level is {{playerData.level}} with. For next
+                level you need {{xp[playerData.level] - playerData.xp}} EXP.</p>
+        </div>
+    </div>
+    <div class="latest-works-header">
+        <img src="./assets/images/latest-works-icon.png">
+        <p>{{locales.latest_works}}</p>
+        <div></div>
+    </div>
+    <div class="latest-works-container no-scrollbar">
+        <div class="latest-work" v-for="i in playerData.history">
+            <div class="flex items-center">
+                <div class="latest-work-type">{{i.customertype}}</div>
+                <p class="latest-work-mission-name">{{i.label}}</p>
+            </div>
+            <div class="flex items-center gap-x-4">
+                <div class="flex items-center gap-x-2">
+                    <img src="./assets/images/xp-icon.png">
+                    <p class="latest-work-detail">{{i.xp}}{{locales.xp_earned}}</p>
+                </div>
+                <div class="flex items-center gap-x-2">
+                    <img src="./assets/images/dollar-icon.png">
+                    <p class="latest-work-detail">${{i.earn}} {{locales.earned}}</p>
+
+                </div>
+                <div class="flex items-center gap-x-2">
+                    <img src="./assets/images/date-icon.png">
+                    <p class="latest-work-detail">{{secondsToDate(i.date)}}</p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

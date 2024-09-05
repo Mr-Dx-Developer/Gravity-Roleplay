@@ -1,0 +1,327 @@
+<div class="w-full h-full flex flex-wrap content-start" style="overflow: hidden">
+    <div class="w-full h-[8%] mt-[1.8vh] flex items-center justify-center">
+        <div class="w-[95%] h-[80%] flex">
+            <div class="w-[93%] h-full flex" style="background-color: rgba(217, 217, 217, 0.05); border-radius: 2vw">
+                <div class="w-[7%] h-full flex items-center justify-center">
+                    <img class="h-[30%]" src="./images/search.png" alt="" />
+                </div>
+                <div class="w-[90%] h-full">
+                    <input
+                        placeholder="Search Any Bills"
+                        type="text"
+                        v-model="searchbarValue"
+                        class="w-[85%] h-full"
+                        style="background-color: transparent; font-size: 0.8vw; font-family: gilroybold; outline: none; color: white; border: none"
+                    />
+                </div>
+            </div>
+            <div class="w-[7%] flex items-center justify-center h-full">
+                <img class="h-[80%] cursor-pointer" @click="openShortBox" src="./images/sorticon.png" alt="" />
+            </div>
+        </div>
+    </div>
+    <div class="w-full h-[92%] flex items-start justify-center relative">
+        <div
+            v-if="shortBox"
+            class="w-[23%] h-[12%] absolute right-[2vw]"
+            style="border-radius: 6px; background: rgba(255, 255, 255, 0.36); backdrop-filter: blur(4px)"
+        >
+            <div
+                class="w-full h-[50%] flex justify-around items-center cursor-pointer"
+                @click="sortData('latest')"
+                style="border-bottom: 1px solid rgba(255, 255, 255, 0.25)"
+            >
+                <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.66); font-size: 0.7vw">
+                    {{this.$store.state.dashboardpage.locales['TRANSACTIONDATELATEST']}}
+                </h2>
+                <img class="h-[50%]" src="./images/sorticon1.png" alt="" />
+            </div>
+            <div class="w-full h-[50%] flex justify-around items-center cursor-pointer" @click="sortData('earliest')">
+                <h2 style="font-family: gilroybold; color: rgba(255, 255, 255, 0.66); font-size: 0.7vw">
+                    {{this.$store.state.dashboardpage.locales['TRANSACTIONDATEEARLIEST']}}
+                </h2>
+                <img class="h-[50%]" src="./images/sorticon2.png" alt="" />
+            </div>
+        </div>
+        <div class="w-[95%] h-full flex flex-wrap content-start no-scrollbar" style="overflow: auto">
+            <div v-for="(data,index) in filterByTermTransactionData " class="w-[23%] ml-[0.6vw] mt-[0.9vh] h-[40%]">
+                <div :key="index" class="w-full h-full" style="background-image: url(./images/billbg.png); background-size: 100% 100%">
+                    <div class="w-full h-[10%] flex">
+                        <div class="w-[50%] h-full flex items-end justify-start">
+                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black; text-indent: 0.65vw">
+                                {{data.societyname}}
+                            </h2>
+                        </div>
+                        <div class="w-[50%] h-full flex items-end justify-end">
+                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: rgba(0, 0, 0, 0.54); margin-right: 0.5vw">
+                                {{this.$store.state.dashboardpage.locales['LSBS']}}-{{data.uniqueid}}
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="w-full h-[25%] mt-[0.2vh] flex items-center justify-center">
+                        <div class="w-[90%] h-full" style="border-bottom: 1px solid rgba(0, 0, 0, 0.17)">
+                            <div class="w-full h-[25%]">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                    {{this.$store.state.dashboardpage.locales['SEND']}} : {{data.date}}
+                                </h2>
+                            </div>
+                            <div class="w-full h-[25%]">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                    {{this.$store.state.dashboardpage.locales['DUE']}} : {{data.date}}
+                                </h2>
+                            </div>
+                            <div class="w-full h-[25%]">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                    {{this.$store.state.dashboardpage.locales['FROM']}} : {{data.name}}
+                                </h2>
+                            </div>
+                            <div class="w-full h-[25%]">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                    {{this.$store.state.dashboardpage.locales['TO']}} : {{data.targetname}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full h-[9%] flex relative items-center justify-center">
+                        <div
+                            class="w-[90%] h-full flex items-center justify-start text-container cursor-pointer relative"
+                            style="border-bottom: 1px solid rgba(0, 0, 0, 0.17)"
+                            @mouseover="showTooltip = index"
+                            @mouseout="showTooltip = null"
+                        >
+                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">{{data.invoicelabel}}</h2>
+                        </div>
+                        <transition-group name="openbillmodal2">
+                            <div v-if="showTooltip == index" class="w-full h-[250%] absolute top-[100%] flex items-start justify-center">
+                                <div class="w-[90%] h-full" style="background-color: #d9d9d9">
+                                    <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">{{data.invoicelabel}}</h2>
+                                </div>
+                            </div>
+                        </transition-group>
+                    </div>
+                    <div class="w-full h-[20%] flex mt-[0.5vh] items-center justify-center">
+                        <div class="w-[90%] h-full">
+                            <div class="w-full h-[30%] flex items-end justify-between">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                    {{this.$store.state.dashboardpage.locales['SUBTOTAL']}}
+                                </h2>
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                    {{$store.state.dashboardpage.currencyUnit}} {{data.amount}}
+                                </h2>
+                            </div>
+                            <div v-if="data.tax !== '-'" class="w-full h-[30%] flex items-center justify-between">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                    {{this.$store.state.dashboardpage.locales['TAX']}}
+                                </h2>
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                    {{$store.state.dashboardpage.currencyUnit}} {{(data.amount * data.tax).toLocaleString()}}
+                                </h2>
+                            </div>
+                            <div v-else class="w-full h-[30%] flex items-center justify-between">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                    {{this.$store.state.dashboardpage.locales['TAX']}}
+                                </h2>
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">{{data.tax}}</h2>
+                            </div>
+                            <div v-if="data.tax !== '-'" class="w-full h-[30%] flex items-start justify-between">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                    {{this.$store.state.dashboardpage.locales['SUMMARY']}}
+                                </h2>
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                    {{$store.state.dashboardpage.currencyUnit}} {{(parseInt(data.amount * data.tax) +
+                                    parseInt(data.amount)).toLocaleString()}}
+                                </h2>
+                            </div>
+                            <div v-else class="w-full h-[30%] flex items-start justify-between">
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                    {{this.$store.state.dashboardpage.locales['SUMMARY']}}
+                                </h2>
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                    {{$store.state.dashboardpage.currencyUnit}} {{data.amount}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full h-[31%] flex mt-[0.5vh] items-end justify-center" @click="showBill(data)">
+                        <h2
+                            style="
+                                font-family: sf-pro-rounded-medium;
+                                margin-bottom: 1vh;
+                                font-size: 0.7vw;
+                                color: black;
+                                text-indent: 0.65vw;
+                                cursor: pointer;
+                            "
+                        >
+                            {{this.$store.state.dashboardpage.locales['PAY']}}
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <transition-group name="openbillmodal2">
+            <div
+                v-if="billDeatils"
+                class="w-full h-full absolute z-[2] rounded-[1vw] flex items-center justify-center"
+                @click="closePayModal"
+                style="background: rgba(0, 0, 0, 0.85); background-size: 100% 100%; overflow: hidden"
+            >
+                <div class="w-[30%] h-[60%]">
+                    <div class="w-full h-[10%] flex items-start justify-center">
+                        <h2 class="mt-[0.5vh]" style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: rgba(255, 255, 255, 0.74)">
+                            {{this.$store.state.dashboardpage.locales['AREUSURE']}}
+                        </h2>
+                    </div>
+
+                    <div
+                        @click.stop
+                        :class="animationTable.blueborder ? 'blueborder1' : 'blueborder2'"
+                        class="w-full h-[86.5%] flex flex-wrap content-start items-start justify-center"
+                        style="background-image: url(./images/roundedbg.png); background-size: 100% 100%"
+                    >
+                        <div :class="animationTable.whitebackground ? 'whitebg2' : 'whitebg1'" class="w-[85%] h-[80%] flex flex-wrap items-end">
+                            <div
+                                class="w-full h-[92%] relative flex flex-wrap items-start justify-center content-start"
+                                style="background-image: url(./images/billshow.png); background-size: 100% 100%"
+                            >
+                                <div class="w-full h-[10%] flex">
+                                    <div class="w-[50%] h-full flex items-end justify-start">
+                                        <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black; text-indent: 0.65vw">
+                                            {{billDeatils.societyname}}
+                                        </h2>
+                                    </div>
+                                    <div class="w-[50%] h-full flex items-end justify-end">
+                                        <h2
+                                            style="
+                                                font-family: sf-pro-rounded-medium;
+                                                font-size: 0.7vw;
+                                                color: rgba(0, 0, 0, 0.54);
+                                                margin-right: 0.5vw;
+                                            "
+                                        >
+                                            {{this.$store.state.dashboardpage.locales['LSBS']}}-{{billDeatils.uniqueid}}
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="w-full h-[25%] mt-[0.2vh] flex items-center justify-center">
+                                    <div class="w-[90%] h-full" style="border-bottom: 1px solid rgba(0, 0, 0, 0.17)">
+                                        <div class="w-full h-[25%]">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                {{this.$store.state.dashboardpage.locales['SEND']}} : {{billDeatils.date}}
+                                            </h2>
+                                        </div>
+                                        <div class="w-full h-[25%]">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                {{this.$store.state.dashboardpage.locales['DUE']}} : {{billDeatils.seconddate}}
+                                            </h2>
+                                        </div>
+                                        <div class="w-full h-[25%]">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                {{this.$store.state.dashboardpage.locales['FROM']}} {{billDeatils.name}}
+                                            </h2>
+                                        </div>
+                                        <div class="w-full h-[25%]">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                {{this.$store.state.dashboardpage.locales['TO']}} {{billDeatils.targetname}}
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full h-[9%] flex relative items-center justify-center">
+                                    <div
+                                        class="w-[90%] h-full flex items-center justify-start text-container cursor-pointer relative"
+                                        style="border-bottom: 1px solid rgba(0, 0, 0, 0.17)"
+                                        @mouseover="showTooltip = billDeatils.id"
+                                        @mouseout="showTooltip = null"
+                                    >
+                                        <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                            {{billDeatils.invoicelabel}}
+                                        </h2>
+                                    </div>
+                                    <transition-group name="openbillmodal2">
+                                        <div
+                                            v-if="showTooltip == billDeatils.id"
+                                            class="w-full h-[250%] absolute top-[100%] flex items-start justify-center"
+                                        >
+                                            <div class="w-[90%] h-full" style="background-color: #d9d9d9">
+                                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                    {{billDeatils.invoicelabel}}
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </transition-group>
+                                </div>
+                                <div class="w-full h-[20%] flex mt-[0.5vh] items-center justify-center">
+                                    <div class="w-[90%] h-full">
+                                        <div class="w-full h-[30%] flex items-end justify-between">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                                {{this.$store.state.dashboardpage.locales['SUBTOTAL']}}
+                                            </h2>
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                                {{$store.state.dashboardpage.currencyUnit}} {{billDeatils.amount}}
+                                            </h2>
+                                        </div>
+                                        <div v-if="billDeatils.tax !== '-'" class="w-full h-[30%] flex items-center justify-between">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                                {{this.$store.state.dashboardpage.locales['TAX']}}
+                                            </h2>
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                                {{$store.state.dashboardpage.currencyUnit}} {{(billDeatils.amount *
+                                                billDeatils.tax).toLocaleString()}}
+                                            </h2>
+                                        </div>
+                                        <div v-else class="w-full h-[30%] flex items-center justify-between">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                                {{this.$store.state.dashboardpage.locales['TAX']}}
+                                            </h2>
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.5vw; color: rgba(0, 0, 0, 0.57)">
+                                                {{billDeatils.tax}}
+                                            </h2>
+                                        </div>
+                                        <div v-if="billDeatils.tax !== '-'" class="w-full h-[30%] flex items-start justify-between">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                {{this.$store.state.dashboardpage.locales['SUMMARY']}}
+                                            </h2>
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                {{$store.state.dashboardpage.currencyUnit}} {{(parseInt(billDeatils.amount * billDeatils.tax) +
+                                                parseInt(billDeatils.amount)).toLocaleString()}}
+                                            </h2>
+                                        </div>
+                                        <div v-else class="w-full h-[30%] flex items-start justify-between">
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                {{this.$store.state.dashboardpage.locales['SUMMARY']}}
+                                            </h2>
+                                            <h2 style="font-family: sf-pro-rounded-medium; font-size: 0.7vw; color: black">
+                                                {{$store.state.dashboardpage.currencyUnit}} {{billDeatils.amount}}
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    :class="animationTable.paidText ? 'paid2' : 'paid1'"
+                                    class="w-[40%] h-[20%] flex items-center justify-center absolute bottom-[1vh] left-[30%]"
+                                    style="transform: rotate(-30deg)"
+                                >
+                                    <h2 v-if="animationTable.paidText" style="font-family: sf-pro-rounded-medium; font-size: 1.2vw; color: #ff6565">
+                                        {{this.$store.state.dashboardpage.locales['PAID']}}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div :class="paybutton ? 'test' : 'test2'" class="w-[85%] h-[14%] mt-[0.5vh] cursor-pointer" @click.stop @click="payBill">
+                            <div
+                                class="w-full h-[92%] flex items-center justify-center"
+                                style="background-image: url(./images/billshowdown.png); background-size: 100% 100%"
+                            >
+                                <h2 style="font-family: sf-pro-rounded-medium; font-size: 1vw; color: white">
+                                    {{this.$store.state.dashboardpage.locales['PAY']}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition-group>
+    </div>
+</div>

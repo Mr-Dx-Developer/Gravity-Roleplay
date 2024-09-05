@@ -1,0 +1,48 @@
+<div class="leaderboard">
+    <div class="leaderboard-bg">
+        <div class="leaderboard-player">
+            <template v-if="leaderboard.data[2]">
+                <div class="leaderboard-pp">
+                    <img :src="leaderboard.data[2].avatar" v-if="leaderboard.data[2].avatar">
+                    <img src="/html/assets/images/test-pp.png" v-else>
+                </div>
+                <p class="leaderboard-name">{{leaderboard.data[2].name}}</p>
+                <p class="leaderboard-level">#3</p>
+            </template>
+        </div>
+        <div class="leaderboard-player">
+            <template v-if="leaderboard.data[0]">
+                <div class="leaderboard-pp">
+                    <img :src="leaderboard.data[0].avatar" v-if="leaderboard.data[0].avatar">
+                    <img src="/html/assets/images/test-pp.png" v-else>
+                </div>
+                <p class="leaderboard-name">{{leaderboard.data[0].name}}</p>
+                <p class="leaderboard-level">#1</p>
+            </template>
+        </div>
+        <div class="leaderboard-player">
+            <template v-if="leaderboard.data[1]">
+                <div class="leaderboard-pp">
+                    <img :src="leaderboard.data[1].avatar" v-if="leaderboard.data[1].avatar">
+                    <img src="/html/assets/images/test-pp.png" v-else>
+                </div>
+                <p class="leaderboard-name">{{leaderboard.data[1].name}}</p>
+                <p class="leaderboard-level">#2</p>
+            </template>
+        </div>
+    </div>
+    <div class="leaderboard-other-players no-scrollbar">
+        <div class="leaderboard-other-player" v-show="index > 2"  v-for="(i, index) in leaderboard.data" >
+            <template v-if="leaderboard.data[index]">    
+                <div class="flex items-center gap-x-5">
+                    <p class="leaderboard-other-level">#{{index+1}}</p>
+                    <p class="leaderboard-other-player-name">{{i.name}}</p>
+                </div>
+                <div class="flex items-center gap-x-2">
+                    <p class="leaderboard-other-player-level">Lv.{{i.level}}</p>
+                    <img src="./assets/images/level-icon.png">
+                </div>
+            </template>
+        </div>
+    </div>
+</div>
