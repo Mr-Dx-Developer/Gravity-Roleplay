@@ -21,7 +21,7 @@
             <div class="logo">
                     <img :src="mainSettings.logo" :style="{ 'width': mainSettings.logowidth + 'vh' }" style='height: 8.7vh'>
                 </div>
-                    <!-- <div class="card store" @click="StoreAboutUS" v-if="!page.aboutus.enabled">
+                    <div class="card store" @click="StoreAboutUS" v-if="!page.aboutus.enabled">
                         <h5>{{page.storecard.title}}</h5>
                         <p>{{page.storecard.description}}</p>
                         <button class="storebutton">{{page.storecard.button}}</button>
@@ -44,7 +44,7 @@
                     <p>{{changeLog.description}} </p>
                     <button class="storebutton">{{changeLog.button}}</button>
                     <img :src="changeLog.character_image" class="hvr-backward">
-                </div> -->
+                </div>
             </div>
             <div class="pageside animate__animated animate__fadeInLeft" v-if="pagestore">
                 <div class="page">
@@ -104,11 +104,11 @@
                 </div>
             </div>
         </div>
-            <!-- <div class="bottom">
+            <div class="bottom">
                 <div class="pressbutton animate__animated animate__pulse animate__slow animate__infinite"><h1>{{page.settings.loading}}</h1></div>
                 <div class="randomtext"><p>{{randomtext}}</p></div>
             </div>
-            <div class="loadingbar"></div> -->
+            <div class="loadingbar"></div>
         </div>
     </div>
     <canvas v-show="mainSettings.extra.autoSnow" class="snow" id="snow"></canvas>
