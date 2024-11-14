@@ -26,8 +26,8 @@ sets sv_pureLevel 1
 
 
 
-set steam_webApiKey 4812BFC2C3F4511389D3F3077B03CD0E
-set sv_licenseKey cfxk_1AjtMPTLkNe27p4oAUQXg_2W7tXF
+set steam_webApiKey 
+set sv_licenseKey 
 
 sets sv_hostname "^2GRAVITY ^3ROLEPLAY ^4SERVER | ^5Custom ^2Framework ^0| ^5Serious RP & High Economy ^0| ^1Lawyer & Mechanic ^0| ^5Ganja and illegal Jobs ^0| ^1Custom Cars"
 sets sv_projectName "^2Gravity ^3Roleplay ^4🔥"
